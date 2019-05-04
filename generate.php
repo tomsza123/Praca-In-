@@ -8,6 +8,7 @@
     $connect = @new mysqli($host,$db_user,$db_password,$db_name);
 
     require('fpdf.php');
+    require('phpqrcode/qrlib.php');
     
     $pdf = new FPDF ('P','mm','A5');
     //$pdf ->AddPage();
@@ -45,6 +46,8 @@
                 }
             } 
         }
+        $qrinfo = new QRcode();
+        $qrinfo = QRcode::png($name[$j].' / '.$name_2[$j].' / '.$lastname[$j].' / '.$type[$j].' / '.$zone[$j] , "temp_qr/qr".$j.".jpg");
         $pdf ->AddPage();
         
         $pdf->Image($bg, 0, 0, 0, 0);
@@ -60,6 +63,9 @@
         $pdf ->SetFont('Helvetica');
         $pdf ->SetTextColor(0,0,0);
         $pdf ->Text(15,120,$type[$j]);
+
+        $pdf->Image('temp_qr/qr'.$j.'.jpg', 70, 30, 0, 0, 'PNG');
+        unlink('temp_qr/qr'.$j.'.jpg');
         
 
         //$pdf ->Text(15,130,$bg);

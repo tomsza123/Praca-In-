@@ -53,18 +53,21 @@
 </ul>
 
 <br>
-//poprawić czas sesji (po wlaczeniu serwera jestem zalogowany)
+//stopka zasłania treść(dot main i tabelek)<br>
+//poprawić czas sesji (po wlaczeniu serwera jestem zalogowany)<br>
 //poprawić wygląd strony głównej<br>
 //edytowac formularz edycji identów<br> 
-//poprawić pdf, dodać qr kod<br>
+//poprawić pdf<br>
 //poprawić tabelki by pierwszy wiersz był zawsze widoczny<br>
 //oczyścic kod<br>
 
 
-</section>
 
+</section>
 <div id="footer">
     <b>prawa zaszczeżone</b>
 </div>
+
 </body>
+
 </html>
