@@ -114,6 +114,7 @@
 <link rel="stylesheet" href="style.css">
 <script src="http://code.jquery.com/jquery-latest.pack.js" type="text/javascript"></script>
 </head>
+<script type="text/javascript" src="script.js"></script>
 <body>
 
 
@@ -193,16 +194,5 @@
 </div>
 
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-
-
-<script type="text/javascript" >
-$(document).ready(function(){
-	$('.open-menu, .hide').click(function(){	
-		$('nav').toggleClass('show');		
-	});//open click	
-});//document ready end
-</script>
-
-
 </body>
 </html>

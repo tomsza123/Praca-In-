@@ -119,6 +119,7 @@
 <link rel="stylesheet" href="style.css">
 <script src="http://code.jquery.com/jquery-latest.pack.js" type="text/javascript"></script>
 </head>
+<script type="text/javascript" src="script.js"></script>
 <body>
 
 
@@ -184,15 +185,5 @@
 <div id="footer">
     <b>prawa zaszczeżone</b>
 </div>
-
-<script type="text/javascript" >
-$(document).ready(function(){
-	$('.open-menu, .hide').click(function(){	
-		$('nav').toggleClass('show');		
-	});//open click	
-});//document ready end
-</script>
-
-
 </body>
 </html>

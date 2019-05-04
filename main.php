@@ -18,6 +18,7 @@
 <link rel="stylesheet" href="style.css">
 <script src="http://code.jquery.com/jquery-latest.pack.js" type="text/javascript"></script>
 </head>
+<script type="text/javascript" src="script.js"></script>
 <body>
 
 
@@ -41,9 +42,23 @@
 <ul>
     <li><a href="registration.php" >Załóż konto</a></li>
     <li><a href="add_ident.php" >Dodaj identyfikator</a></li>
-    <li><a href="add_ident_type.php">Dodaj nowy typ identyfikatora</a></li>
+    <li><a href="add_ident_type.php">Dodaj nowy typ identyfikatora</a></li>    
+    <li><a href="add_zone.php">Dodaj strefę</a></li>
+</ul>
+<br>
+
+<ul>
+    <li><a href="idents.php" >Pokaż identyfikatory</a></li>
+    <li><a href="ident_types.php" >Pokaż typy identyfikatorów</a></li>
 </ul>
 
+<br>
+//poprawić czas sesji (po wlaczeniu serwera jestem zalogowany)
+//poprawić wygląd strony głównej<br>
+//edytowac formularz edycji identów<br> 
+//poprawić pdf, dodać qr kod<br>
+//poprawić tabelki by pierwszy wiersz był zawsze widoczny<br>
+//oczyścic kod<br>
 
 
 </section>
@@ -51,15 +66,5 @@
 <div id="footer">
     <b>prawa zaszczeżone</b>
 </div>
-
-<script type="text/javascript" >
-$(document).ready(function(){
-	$('.open-menu, .hide').click(function(){	
-		$('nav').toggleClass('show');		
-	});//open click	
-});//document ready end
-</script>
-
-
 </body>
 </html>
