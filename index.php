@@ -24,12 +24,7 @@
 
 <header>
     <div id="logo"></div>
-        <!--<a href="#" class="btn open-menu">&#9776;</a>
-	    <nav class="clearfix">
-		    <a href="#" class="btn hide">&laquo; Zamknij</a>
-		    <a href="#" class="btn">Główna</a>
-            				
-	    </nav>-->
+        
 </header>
 <section class="container">
 

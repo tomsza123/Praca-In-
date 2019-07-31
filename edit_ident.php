@@ -13,25 +13,22 @@
     {
         $_SESSION['type2'] = $_POST['identtype'];
         //echo $_SESSION['type2'];
-        //include('add_ident_pt2.php');
+        //include('add_ident_pt2.php'); 
     }
+
     $id = $_GET['id'];
+    $ident = mysqli_query($connect,"SELECT * FROM ident WHERE id = $id");
 
-    $ident = mysqli_query($connect,"SELECT *FROM ident WHERE id = $id");
-
-    if(mysqli_num_rows($ident) > 0) 
+    while($r = mysqli_fetch_array($ident)) 
     {
-        while($row = mysqli_fetch_array($ident)) 
-        {
-            $name = $row['name'];
-            $name_2 = $row['name_2'];
-            $lastname = $row['lastname'];
-            $madeby = $row['madeby'];
-            $type = $row['type'];
-            $zone_selected = $row['zone'];
-        }
+        $name = $r['name'];        
+        $name_2 = $r['name_2'];
+        $lastname = $r['lastname'];
+        
         
     }
+
+
 ?>
 
 <!DOCTYPE html>
@@ -51,27 +48,30 @@
         <a href="#" class="btn open-menu">&#9776;</a>
 	    <nav class="clearfix">
 		    <a href="#" class="btn hide">&laquo; Zamknij</a>
-		    <a href="main.php" class="btn">Panel administratora</a>
+            <a href="main.php" class="btn">Panel administratora</a>
+            <a href="logout.php" class="btn">Wyloguj</a> 
             				
 	    </nav>
 </header>
 <section class="container">
 
-<h1>Edytuj identyfikator</h1>
+<h1>Edycja Identyfikatora nr: <?php echo $id; ?></h1>
 <div id="loginform">
+
+
 
     
     <h2>Wybierz rodzaj identyfikatora:</h2>  
-    <form method="post">
+    <form method="post" id="form"> 
     <?php
         if(mysqli_num_rows($types) > 0) 
         { 
             echo '<select id="selected_type" name="identtype" onchange="typeSelect();">';
             
-            echo'<option value="" selected>';
+            echo'<option value="Pusty|" >';
             while($r = mysqli_fetch_assoc($types)) 
             { 
-                echo '<option value="'.$r['type_2'].'" >';
+                echo '<option value="'.$r['type_2'].'|'.$r['type'].'" >';
                 echo $r['type'];
                 echo '</option>';
             }  
@@ -79,52 +79,41 @@
         }
         if(isset($_POST['identtype']))
         {
-            $_SESSION['type2'] = $_POST['identtype'];
+            //$_SESSION['type2'] = $_POST['identtype'];
+            $stype = explode("|",$_POST['identtype']);
+
         }
+        
 
         $zones = mysqli_query($connect,"SELECT * FROM zone");
 ?>
+
 <div id="demo"></div>
+
 <div id="zone" style="display: none;">
 
 <?php
     if(mysqli_num_rows($zones) > 0) 
     { 
-        echo '<select id="zone" name="zone" "onchange=typeSelect();>';
-        echo '<option value="" selected>';
+        echo '<select id="zone" name="zone" onchange=typeSelect();>';
+        echo'<option value="" selected>';
         while($r = mysqli_fetch_assoc($zones)) 
         {  
-            
-            if($r['zone'] == $zone_selected)
-            {
-                echo '<option value="'.$r['zone'].'" selected>'.$r['zone'].'</option>';
-                
-            }
-            else
-            {
-                echo '<option value="'.$r['zone'].'" >'.$r['zone'].'</option>';
-            }
-           
+            echo '<option value="'.$r['zone'].'" >';
+            echo $r['zone'];
+            echo '</option>';
         }  
     }
     echo '</select>'
-
-   
 ?>
 
 
 <h2>Nazwa</h2>
-<input type="text" name="name(2)"value="<?php echo $name;?>"> 
+<input type="text" name="name(2)" required value=<?php echo'"'.$name.'" ';?> >
 <h2>Imię(opcjonalnie)</h2>
-<input type="text" name="name_2(2)" value="<?php echo $name_2;?>">
+<input type="text" name="name_2(2)" value=<?php echo'"'.$name_2.'" ';?> >
 <h2>Nazwisko(opcjonalnie)</h2>
-<input type="text" name="lastname(2)" value="<?php echo $lastname;?>">
-<h2>Ilość</h2>
-<input type="number" name="number" min="1" value=1>
-
-
-
-
+<input type="text" name="lastname(2)" >
 </div>
 
 
@@ -133,31 +122,34 @@
 
 
 <h2>Nazwa</h2>
-<input type="text" name="name" value="<?php echo $name;?>">
+<input type="text" name="name" required>
 <h2>Imię(opcjonalnie)</h2>
-<input type="text" name="name_2" value="<?php echo $name_2;?>">
+<input type="text" name="name_2">
 <h2>Nazwisko(opcjonalnie)</h2>
-<input type="text" name="lastname" value="<?php echo $lastname;?>">
-<h2>Ilość</h2>
-<input type="number" name="number" min="1" value=1>
-
-
+<input type="text" name="lastname">
 </div>
 
 <div id="drive" style="display: none;">
 
 
 <h2>Numer rejestracyjny</h2>
-<input type="text" name="drive" value="<?php echo $name;?>">
+<input type="text" name="drive" required>
 
 </div>
 
-<div class="center">
-        
-    <button type=submit class="button" >Dodaj</button>  
-        
+<div id="empty" style="display: none;">
 </div>
+
 </form>
+
+
+<div class="center">       
+    
+    <button type="submit" form="form" class="button" id="add" style="display: none;">Edytuj</button>       
+    <button class="button" onclick="anuluj()">Anuluj</button>
+
+</div>
+
 
 <?php
 
@@ -173,30 +165,27 @@
         $type = $_SESSION['type2']; 
         $zone = $_POST['zone'];
         $drive = $_POST['drive'];
-        $id = $_GET['id'];
+        $seltype = $stype[1];
         
-        if($_POST['identtype'] == "Identyfikator strefowy")
+        switch($stype[0])
         {
-            $connect->query("UPDATE ident SET name='$name2',name_2 = '$name_22', lastname = '$lastname2', madeby = '$madeby', type = '$type', zone = '$zone'  WHERE id = $id");
+            case('Identyfikator bezstrefowy'):
+                $connect->query("INSERT INTO ident VALUES (NULL, '$name$drive$name2','$name_2$name_22','$lastname$lastname2','$madeby','$seltype','$zone')");
+            break;
+            case('Identyfikator strefowy'):
+                $connect->query("INSERT INTO ident VALUES (NULL, '$name$drive$name2','$name_2$name_22','$lastname$lastname2','$madeby','$seltype','$zone')");
+            break;
+            case('Wjazdówka'):
+                $connect->query("INSERT INTO ident VALUES (NULL, '$name$drive$name2','$name_2$name_22','$lastname$lastname2','$madeby','$seltype','$zone')");
+            break;
         }
-        if($_POST['identtype'] == "Identyfikator bezstrefowy")
-        {
-            $connect->query("UPDATE ident SET name='$name',name_2 = '$name_2', lastname = '$lastname', madeby = '$madeby', type = '$type', zone = NULL WHERE id = $id");
-        }
-        if($_POST['identtype'] == "Wjazdówka")
-        {
-            $connect->query("UPDATE ident SET name='$drive',name_2 = NULL, lastname = NULL,madeby = '$madeby', type = '$type', zone = NULL WHERE id = $id");
-        }
-        header("location: idents.php");
+        
+        echo '<script>alert("Edytowano identyfikator");</script>';
+        
     }
 
 ?>
 
-</div>
-</section>
-<div id="footer">
-    <b>prawa zaszczeżone</b>
-</div>
 
 </body>
 </html>

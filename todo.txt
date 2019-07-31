@@ -1,0 +1,23 @@
+edytowac formularz edycji typów identów
+dodać do bazy kolumny edytowany przez, i daty utworzenia i edycji(ostatniej lub przy chęciach zrobić historię edycji)
+poprawić pdf
+poprawić czas sesji (po wlaczeniu serwera jestem zalogowany)
+dodać wyszukiwarkę
+poprawić wygląd strony głównej
+oczyścic kod
+
+
+$connect->query('UPDATE ident SET edited_by = CONCAT($login," ",NOW(),"|") WHERE id = $id');
+
+case('Identyfikator bezstrefowy'):
+                $connect->query("UPDATE ident SET name='$name2',name_2 = '$name_22', lastname = '$lastname2', type = '$seltype', zone = '$zone'  WHERE id = $id");
+                $connect->query('UPDATE ident SET edited_by = CONCAT($login," ",NOW(),"|") WHERE id = $id');
+            break;
+            case('Identyfikator strefowy'):
+                $connect->query("UPDATE ident VALUES (NULL, '$name$drive$name2','$name_2$name_22','$lastname$lastname2','$madeby','$seltype','$zone')");
+                $connect->query('UPDATE ident SET edited_by = CONCAT($login," ",NOW(),"|") WHERE id = $id');
+            break;
+            case('Wjazdówka'):
+                $connect->query("UPDATE ident VALUES (NULL, '$name$drive$name2','$name_2$name_22','$lastname$lastname2','$madeby','$seltype','$zone')");
+                $connect->query('UPDATE ident SET edited_by = CONCAT($login," ",NOW(),"|") WHERE id = $id');
+            break;

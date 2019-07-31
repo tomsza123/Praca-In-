@@ -1,3 +1,14 @@
+<?php
+    session_start();
+    if(!isset($_SESSION['logged']))
+    {
+        header('Location: index.php');
+        exit();
+    }
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="pl" dir="ltr">
 <head>
@@ -15,7 +26,8 @@
         <a href="#" class="btn open-menu">&#9776;</a>
 	    <nav class="clearfix">
 		    <a href="#" class="btn hide">&laquo; Zamknij</a>
-		    <a href="main.php" class="btn">Panel administratora</a>
+            <a href="main.php" class="btn">Panel administratora</a>
+            <a href="logout.php" class="btn">Wyloguj</a> 
             				
 	    </nav>
 </header>
@@ -23,16 +35,15 @@
 
 <h1>Dodaj nową strefę(dot. identyfikatorów strefowych)</h1>
 <div id="loginform">
-    <form method="post">
+    <form method="post" id="form">
         <h2>Nazwa</h2>
-        <input type="text" name="zone">
-
-        <div class="center">
-        
-            <button type=submit class="button" >Dodaj</button>  
-                
-        </div>
+        <input type="text" name="zone" required>
     </form>
+        <div class="center">
+            <button type="submit" form="form" class="button">Dodaj</button>
+            <button class="button" onclick="anuluj()">Anuluj</button>
+        </div>
+   
 
 </div>
 

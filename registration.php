@@ -1,30 +1,32 @@
 <?php
+    //session_start();
+    
     session_start();
-    //if((isset($_SESSION['logged'])) && ($_SESSION['logged']==true))
-    //{
-     //   header('Location: main.php');
-     //   exit();
-    //}
-    //walidacja formularza
-    if(isset($_POST['email']))//może być obojętnie jaka zmienna bo dzieki walidacji bedziemy miec pewnosc ze kazde wymagane pole zostalo prawidlowo uzupelnione
+    if(!isset($_SESSION['logged']))
     {
-        //zmienna początkowa zakładająca że na razie wszystko jest ok(dopóki nie pójdzie coś źle w formularzu)
+        header('Location: index.php');
+        exit();
+    }
+
+
+    //walidacja formularza
+    if(isset($_POST['email']))
+    {
         $is_ok = true;
-        //sprawdzenie poprawnosci loginu
         $login = $_POST['login'];
-        //spr długości loginu(od 3 do 20)
+        
         if((strlen($login)<3)||(strlen($login)>20))
         {
             $is_ok=false;
             $_SESSION['login_error']='Login powinien posiadać od 3 do 20 znaków.';            
         }
-        //zabezpieczenie przed np znakami html(tylko znaki alfanumeryczne)
+        
         if(ctype_alnum($login)==false)
         {
             $is_ok=false;
             $_SESSION['login_error']='Login powinien składać się wyłącznie z liter i cyfr(bez polskich znaków).' ;
         }
-        //sprawdzenie poprawności adresu e-mail(w przypadku gdyby był zmieniony typ inputa na text w html)
+        
         $email = $_POST['email'];
         $email_san= filter_var($email,FILTER_SANITIZE_EMAIL);//sanityzacja e-mail
         if((filter_var($email_san,FILTER_VALIDATE_EMAIL)==false) || ($email_san!=$email))
@@ -131,11 +133,11 @@
 <section class="container">
 
 <div id="loginform">
-    <form method="post"> 
+    <form method="post" id="form"> 
         <h2>Login:</h2>    
             <input type="text" name="login">
             <?php
-                //jeżeli nieprawidłowy login
+                
                 if(isset($_SESSION['login_error']))
                 {
                     echo '<div class="error">'.$_SESSION['login_error'].'</div>';
@@ -145,7 +147,7 @@
         <h2>E-mail:</h2>    
             <input type="mail" name="email">
             <?php
-                //jeżeli nieprawidłowy email
+                
                 if(isset($_SESSION['mail_error']))
                 {
                     echo '<div class="error">'.$_SESSION['mail_error'].'</div>';
@@ -156,7 +158,7 @@
         <h2>Hasło:</h2>    
             <input type="password" name="password1">
             <?php
-                //jeżeli za krótkie hasło
+                
                 if(isset($_SESSION['pass_error']))
                 {
                     echo '<div class="error">'.$_SESSION['pass_error'].'</div>';
@@ -167,7 +169,7 @@
         <h2>Powtórz hasło:</h2>    
             <input type="password" name="password2">
             <?php
-                //jeżeli za krótkie hasło
+                
                 if(isset($_SESSION['pass_identity_error']))
                 {
                     echo '<div class="error">'.$_SESSION['pass_identity_error'].'</div>';
@@ -175,18 +177,20 @@
                     unset($_SESSION['pass_identity_error']);
                 }
             ?>
-        <div class="center">
-             
-            <form action="?" method="POST">
-                <div class="g-recaptcha" data-sitekey="6Le4YJ0UAAAAANwd4BmqMQ5tKL4y8U9RsgRyccxV"></div>
-                <br/>                
-            </form>
-                      
+            </form> 
+            <div class="center">
 
-           <button class="button">Załóz konto</button>
+                <button type="submit" form="form" class="button">Dodaj</button>       
+            
+
+                <button class="button" onclick="anuluj()">Anuluj</button>
+
+            
         </div> 
-    </form>      
+        
 </div>
+
+
 
 </section>
 <div id="footer">

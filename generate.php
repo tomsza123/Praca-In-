@@ -4,6 +4,11 @@
     $indeks = $_SESSION['idents'];
     $i =  $_SESSION['howmuch'];
 
+    if((!isset($indeks)) && (!isset($i)))
+    {
+        header('location:idents.php');
+    }
+
     require_once 'connect.php';
     $connect = @new mysqli($host,$db_user,$db_password,$db_name);
 
@@ -11,18 +16,17 @@
     require('phpqrcode/qrlib.php');
     
     $pdf = new FPDF ('P','mm','A5');
-    //$pdf ->AddPage();
-    
-    
-    $ident = array();
 
-    
+    $ident = array();
     
     $back = array();
     $type_2 = array();
 
+    
+
     for($j=0;$j<$i;$j++)
     {
+        $pdf ->AddPage();
         $ident[$j] = mysqli_query($connect,"SELECT * FROM ident WHERE id = $indeks[$j]");
         if(mysqli_num_rows($ident[$j]) > 0) 
         {
@@ -48,21 +52,33 @@
         }
         $qrinfo = new QRcode();
         $qrinfo = QRcode::png($name[$j].' / '.$name_2[$j].' / '.$lastname[$j].' / '.$type[$j].' / '.$zone[$j] , "temp_qr/qr".$j.".jpg");
-        $pdf ->AddPage();
+        
         
         $pdf->Image($bg, 0, 0, 0, 0);
 
         $pdf->SetLineWidth(0.5);
-        $pdf->SetFillColor(192);
-        $pdf->Rect(10, 100, 40, 30, 'DF');
+        $pdf->SetFillColor(255);
+        $pdf->Rect(10, 90, 95, 10, 'DF');
 
-        $pdf ->SetFont('Helvetica','B',16);
-        $pdf ->SetTextColor(255,255,255);
-        $pdf ->Text(15,110,$name[$j]);
-
-        $pdf ->SetFont('Helvetica');
+        $pdf ->SetFont('Arial','B',16);
         $pdf ->SetTextColor(0,0,0);
-        $pdf ->Text(15,120,$type[$j]);
+        $pdf ->Text(15,97,$name[$j]);
+
+        $pdf->SetLineWidth(0.5);
+        $pdf->SetFillColor(255);
+        $pdf->Rect(10, 105, 95, 10, 'DF');
+
+        $pdf ->SetFont('Arial');
+        $pdf ->SetTextColor(0,0,0);
+        $pdf ->Text(15,112,$name_2[$j]);
+
+        $pdf->SetLineWidth(0.5);
+        $pdf->SetFillColor(255);
+        $pdf->Rect(10, 120, 95, 10, 'DF');
+
+        $pdf ->SetFont('Arial');
+        $pdf ->SetTextColor(0,0,0);
+        $pdf ->Text(15,127,$lastname[$j]);
 
         $pdf->Image('temp_qr/qr'.$j.'.jpg', 70, 30, 0, 0, 'PNG');
         unlink('temp_qr/qr'.$j.'.jpg');
@@ -71,11 +87,7 @@
         //$pdf ->Text(15,130,$bg);
     }
     $pdf->Output();
-    
-    
 
-    
-
-
-    //unset($_SESSION['idents']);
+    unset($indeks);
+    unset($i);
 ?>

@@ -13,7 +13,7 @@
     {
         $_SESSION['type2'] = $_POST['identtype'];
         //echo $_SESSION['type2'];
-        //include('add_ident_pt2.php'); //wysyla typ identyfikatora nie jego nazwe, trza naprawić
+        //include('add_ident_pt2.php'); 
     }
 ?>
 
@@ -34,7 +34,8 @@
         <a href="#" class="btn open-menu">&#9776;</a>
 	    <nav class="clearfix">
 		    <a href="#" class="btn hide">&laquo; Zamknij</a>
-		    <a href="main.php" class="btn">Panel administratora</a>
+            <a href="main.php" class="btn">Panel administratora</a>
+            <a href="logout.php" class="btn">Wyloguj</a> 
             				
 	    </nav>
 </header>
@@ -43,15 +44,17 @@
 <h1>Nowy identyfikator</h1>
 <div id="loginform">
 
+
+
     
     <h2>Wybierz rodzaj identyfikatora:</h2>  
-    <form method="post">
+    <form method="post" id="form"> 
     <?php
         if(mysqli_num_rows($types) > 0) 
         { 
             echo '<select id="selected_type" name="identtype" onchange="typeSelect();">';
             
-            echo'<option value="" selected>';
+            echo'<option value="Pusty|" >';
             while($r = mysqli_fetch_assoc($types)) 
             { 
                 echo '<option value="'.$r['type_2'].'|'.$r['type'].'" >';
@@ -72,6 +75,7 @@
 ?>
 
 <div id="demo"></div>
+
 <div id="zone" style="display: none;">
 
 <?php
@@ -91,13 +95,13 @@
 
 
 <h2>Nazwa</h2>
-<input type="text" name="name(2)">
+<input type="text" name="name(2)" required>
 <h2>Imię(opcjonalnie)</h2>
 <input type="text" name="name_2(2)">
 <h2>Nazwisko(opcjonalnie)</h2>
-<input type="text" name="lastname(2)">
+<input type="text" name="lastname(2)" >
 <h2>Ilość</h2>
-<input type="number" name="number" min="1" value=1>
+<input type="number" name="number_2" min="1" value=1>
 
 
 
@@ -109,7 +113,7 @@
 
 
 <h2>Nazwa</h2>
-<input type="text" name="name">
+<input type="text" name="name" required>
 <h2>Imię(opcjonalnie)</h2>
 <input type="text" name="name_2">
 <h2>Nazwisko(opcjonalnie)</h2>
@@ -124,25 +128,28 @@
 
 
 <h2>Numer rejestracyjny</h2>
-<input type="text" name="drive">
+<input type="text" name="drive" required>
 
 </div>
 
-<div class="center">
-        
-    <button type=submit class="button" >Dodaj</button>  
-        
+<div id="empty" style="display: none;">
 </div>
+
 </form>
+
+
+<div class="center">       
+    
+    <button type="submit" form="form" class="button" id="add" style="display: none;">Dodaj</button>       
+    <button class="button" onclick="anuluj()">Anuluj</button>
+
+</div>
+
 
 <?php
 
     if(isset($_POST['identtype']))
     {
-        
-
-        //$stype = $res_explode[1];
-        //$stype = $_POST['identtype'];
         $name = $_POST['name'];
         $name_2 = $_POST['name_2'];
         $lastname = $_POST['lastname'];
@@ -154,22 +161,41 @@
         $zone = $_POST['zone'];
         $drive = $_POST['drive'];
         $seltype = $stype[1];
+        $number = $_POST['number'];
+        $number_2 = $_POST['number_2'];
         
-       
-        $connect->query("INSERT INTO ident VALUES (NULL, '$name$drive$name2','$name_2$name_22','$lastname$lastname2','$madeby','$seltype','$zone')");
-
-        echo '<script>alert("Dodano identyfikator");</script>';
-
-        //echo $_POST['number'];
+        switch($stype[0])
+        {
+            case('Identyfikator bezstrefowy'):
+            for($i=0;$i<$number;$i++)
+            {
+                $connect->query("INSERT INTO ident VALUES (NULL, '$name$drive$name2','$name_2$name_22','$lastname$lastname2','$madeby','$seltype','$zone')");
+            }
+            break;
+            case('Identyfikator strefowy'):
+            for($i=0;$i<$number_2;$i++)
+            {
+                $connect->query("INSERT INTO ident VALUES (NULL, '$name$drive$name2','$name_2$name_22','$lastname$lastname2','$madeby','$seltype','$zone')");
+            }
+            break;
+            case('Wjazdówka'):
+                $connect->query("INSERT INTO ident VALUES (NULL, '$name$drive$name2','$name_2$name_22','$lastname$lastname2','$madeby','$seltype','$zone')");
+            break;
+        }
+            
+        if(($number>1) || $number_2>1)
+        {
+            echo '<script>alert("Dodano identyfikatory");</script>';
+        }
+        else
+        {
+            echo '<script>alert("Dodano identyfikator");</script>';
+        }
     }
 
 ?>
 
-</div>
-</section>
-<div id="footer">
-    <b>prawa zaszczeżone</b>
-</div>
+
 
 </body>
 </html>

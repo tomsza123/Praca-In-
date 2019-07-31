@@ -6,26 +6,24 @@
         exit();
     }
     //walidacja formularza(nieprzepuszczanie duplikatów)
-    
-    //zrobić sanityzację pol komentarz i ewentualnie tło
 
-    //dokończyć walidację(pola tło(przepuszczać tylko jpg i png o określonej wadze) i komentarz(do 160 znaków))
-    //zmienić kodowanie nazw plików na polskie
+    //dokończyć walidację(pola tło(przepuszczać tylko jpg i png o określonej wadze)
+
     if(isset($_POST['ident_type']))
     {       
         $is_ok = true;        
         $ident_type = $_POST['ident_type'];
         
-        
         if((strlen($ident_type)<3)||(strlen($ident_type)>30))
         {
             $is_ok=false;
             $_SESSION['ident_type_error']='Nieprawidłowa nazwa rodzaju identyfikatora!';            
-        }   
+        } 
+
         $folder = "ident_backgrounds/";
         $background_tmp = $_FILES['background']['tmp_name'];
         $background_name = $_FILES['background']['name'];
-        //jebnc wyjatek        
+             
         if(is_uploaded_file($background_tmp)) 
         {
             move_uploaded_file($background_tmp, "ident_backgrounds/$background_name");                
@@ -37,31 +35,29 @@
         }
 
         list($width, $height) = getimagesize($folder.$background_name);
-        //if(($background_name!== IMAGETYPE_JPG) || ($background_name!== IMAGETYPE_PNG))
-        //{
-            //wyjebac wyjatek
-        //    $is_ok = false;
-        //    $_SESSION['background_error']='Podany plik nie jest obrazem. Wymagane jest rozszerzenie pliku .jpg lub .png';
-        //    //usuwanie z serwera obrazka o nieoptymalnej rozdzielczosci(moze niezbyt optymalne ale dziala)
-       //     unlink($folder.$background_name);
-        //}
+        
         if(($width != 440) && ($height != 620))
         {
             $is_ok = false;
             $_SESSION['background_error']='Rozmiar tła jest nieprawidłowy!';
-            //usuwanie z serwera obrazka o nieoptymalnej rozdzielczosci(moze niezbyt optymalne ale dziala)
-            unlink($folder.$background_name);                
             
-
+            unlink($folder.$background_name);
         }
+
         $comment = $_POST['comment'];
         if(strlen($comment)>=160)
         {
             $is_ok = false;
             $_SESSION['comment_error']='Komentarz nie może przekraczać 160 znaków!';
         }
+        if(ctype_alnum($comment)==false)
+        {
+            $is_ok=false;
+            $_SESSION['login_error']='Komentarz powinien składać się wyłącznie z liter i cyfr(bez polskich znaków).' ;
+        }
         $login = $_SESSION['login'];
         $ident_type_2 = $_POST['ident_type_2'];
+        
         require_once "connect.php";
         
         try
@@ -129,7 +125,8 @@
         <a href="#" class="btn open-menu">&#9776;</a>
 	    <nav class="clearfix">
 		    <a href="#" class="btn hide">&laquo; Zamknij</a>
-		    <a href="main.php" class="btn">Panel administratora</a>
+            <a href="main.php" class="btn">Panel administratora</a>
+            <a href="logout.php" class="btn">Wyloguj</a> 
             				
 	    </nav>
 </header>
@@ -138,7 +135,7 @@
 <h1>Nowy rodzaj identyfikatora</h1>
 
 <div id="loginform">
-    <form enctype="multipart/form-data"  method="post"> 
+    <form enctype="multipart/form-data"  method="post" id="form"> 
         <h2>Rodzaj identyfikatora:</h2>    
             <input type="text" name="ident_type" >
             <?php                
@@ -174,11 +171,12 @@
                 unset($_SESSION['comment_error']);
             }
         ?>            
-
+        </form>  
         <div class="center"> 
-           <button class="button">Dodaj</button>
+            <button type="submit" form="form" class="button">Dodaj</button>
+            <button class="button" onclick="anuluj()">Anuluj</button>
         </div> 
-    </form>      
+        
 </div>
 
 </section>

@@ -1,11 +1,12 @@
 <?php
     session_start();
-    if(!(isset($_SESSION['logged'])) && ($_SESSION['logged']==true))
+    if(!isset($_SESSION['logged']))
     {
-        header('Location: main.php');
+        header('Location: index.php');
         exit();
     }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="pl" dir="ltr">
@@ -25,13 +26,17 @@
 	    <nav class="clearfix">
 		    <a href="#" class="btn hide">&laquo; Zamknij</a>
             <a href="main.php" class="btn">Główna</a>
+            <a href="logout.php" class="btn">Wyloguj</a> 
             				
 	    </nav>
 </header>
 <section class="container">
+
+
 <form method="POST">
 
 <table>
+<thead>
 <tr>
     <th></th><!--mozna poprawic na metode post-->
     <th><a href="ident_types.php?s=id&amp;order=<?php echo isset($_GET['order'])?!$_GET['order']:1; ?>">Id</a></th>
@@ -40,8 +45,9 @@
     <th><a href="ident_types.php?s=type_2&amp;order=<?php echo isset($_GET['order'])?!$_GET['order']:1; ?>">Rodzaj</a></th>
     <th><a href="ident_types.php?s=comment&amp;order=<?php echo isset($_GET['order'])?!$_GET['order']:1; ?>">Komentarz</a></th>
     <th><a href="ident_types.php?s=madeby&amp;order=<?php echo isset($_GET['order'])?!$_GET['order']:1; ?>">Utworzony przez</a></th>    
-    <th>crud</th>
+    <th>Akcja</th>
 </tr>
+</thead>
 <?php
     
 
@@ -62,14 +68,14 @@
         if($order == 1)
         {
             $ident_type = mysqli_query($connect,"SELECT * FROM ident_type ORDER BY $s ASC");
-            //header("location: idents.php");
+            
             
         }
         else
         {
             $ident_type = mysqli_query($connect,"SELECT * FROM ident_type ORDER BY $s DESC");
             //$order = '1';
-            //header("location: idents.php");
+            
         }
         
         
@@ -89,7 +95,7 @@
             echo '<td><a href="'.$r['background'].'">Pokaż tło</a></td>';
             echo "<td>".$r['type_2']."</td>";
             echo "<td>".$r['comment']."</td>";
-            echo "<td>".$r['madeby']."</td>";            
+            echo "<td>".$r['madeby']."</td>";                        
             echo "<td>
            <a href=\"ident_types.php?a=del&amp;id={$r['id']}\">Usuń</a>
            <a href=\"edit_ident_type.php?id={$r['id']}\">Edytuj</a>
@@ -149,6 +155,7 @@
     }
     if(isset($_POST['add']))
     {
+        
         header('location: add_ident_type.php');
     }
 ?>

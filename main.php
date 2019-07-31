@@ -5,7 +5,6 @@
         header('Location: index.php');
         exit();
     }
-
 ?>
 
 <!DOCTYPE html>
@@ -36,30 +35,25 @@
 <section class="container">
 
 <?php    
-    echo "<p><h1>Witaj ".$_SESSION['login']."!";    
+    echo "<p><h1>Witaj ".$_SESSION['login']."!</h1></p>";    
 ?>
-
+<div id="addmenu">
 <ul>
-    <li><a href="registration.php" >Załóż konto</a></li>
+    <li><a href="registration.php" >Dodaj nowego administratora</a></li>
     <li><a href="add_ident.php" >Dodaj identyfikator</a></li>
     <li><a href="add_ident_type.php">Dodaj nowy typ identyfikatora</a></li>    
     <li><a href="add_zone.php">Dodaj strefę</a></li>
 </ul>
-<br>
+</div>
 
+<div id="editmenu">
 <ul>
     <li><a href="idents.php" >Pokaż identyfikatory</a></li>
     <li><a href="ident_types.php" >Pokaż typy identyfikatorów</a></li>
 </ul>
+</div>
 
-<br>
-//stopka zasłania treść(dot main i tabelek)<br>
-//poprawić czas sesji (po wlaczeniu serwera jestem zalogowany)<br>
-//poprawić wygląd strony głównej<br>
-//edytowac formularz edycji identów<br> 
-//poprawić pdf<br>
-//poprawić tabelki by pierwszy wiersz był zawsze widoczny<br>
-//oczyścic kod<br>
+
 
 
 
