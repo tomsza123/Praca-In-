@@ -1,59 +1,4 @@
 
-function typeSelect() 
-{
-    var x = document.getElementById("selected_type").value;
-    var y = x.split("|");
-    var x = y[0];
-    document.getElementById("demo").innerHTML = x;
-
-    switch(x)
-    {
-        case "Pusty":
-            
-            document.getElementById("zone").style.display = 'none';
-            document.getElementById("drive").style.display = 'none';
-            document.getElementById("nonzone").style.display = 'none';
-            document.getElementById("empty").style.display = '';
-            document.getElementById("demo").style.display = 'none';
-            document.getElementById("add").style.display = 'none';
-
-            break;
-        case "Identyfikator bezstrefowy":
-            
-            document.getElementById("zone").style.display = 'none';
-            document.getElementById("drive").style.display = 'none';
-            document.getElementById("nonzone").style.display = '';
-            document.getElementById("empty").style.display = 'none';
-            document.getElementById("demo").style.display = '';
-            document.getElementById("add").style.display = '';
-            
-            break;
-        case "Identyfikator strefowy":
-            
-            document.getElementById("zone").style.display = '';
-            document.getElementById("drive").style.display = 'none';
-            document.getElementById("nonzone").style.display = 'none';
-            document.getElementById("empty").style.display = 'none';
-            document.getElementById("demo").style.display = '';
-            document.getElementById("add").style.display = '';
-            
-            break;
-        case "Wjazdówka":
-            
-            document.getElementById("zone").style.display = 'none';
-            document.getElementById("drive").style.display = '';
-            document.getElementById("nonzone").style.display = 'none';
-            document.getElementById("empty").style.display = 'none';
-            document.getElementById("demo").style.display = '';
-            document.getElementById("add").style.display = '';
-            break;
-        //default:
-        //    return;
-
-    }
-}
-
-
 $(document).ready(function()
 {
     $('.open-menu, .hide').click(function()
@@ -83,4 +28,84 @@ function anuluj()
     }
     else{        
     }
+}
+function goBack() 
+{
+    window.history.back()
+}
+
+function typeSelect() 
+{
+    var list = document.getElementById("selected_type");
+    var selected = list.options[list.selectedIndex].value;
+    var type = selected.split('|');
+
+    /* pola do uzupełniania */
+    var name = document.createElement("input");
+    name.setAttribute('type','text');
+    name.setAttribute('id','name');
+    name.setAttribute('name','name');
+    name.required = "required";
+    
+    var name2 = document.createElement("input");
+    name2.setAttribute('type','text');
+    name2.setAttribute('id','name2');
+    name2.setAttribute('name','name2');
+
+    var lastname = document.createElement("input");
+    lastname.setAttribute('type','text');
+    lastname.setAttribute('id','lastname');
+    lastname.setAttribute('name','lastname');
+
+    var number = document.createElement("input");
+    number.setAttribute('type','number');
+    number.setAttribute('id','number');
+    number.setAttribute('name','number');
+    number.setAttribute('min',1);
+
+    switch(type[0])
+    {
+        case 'Identyfikator bezstrefowy':
+            document.getElementById("zone").style.display = 'none';
+            document.getElementById("add").style.display = ''; 
+
+            document.getElementById('demo').innerHTML = '<h2>Imię:</h2>';
+            document.getElementById('demo').appendChild(name);
+            document.getElementById('demo').innerHTML += '<h2>Nazwisko:</h2>';
+            document.getElementById('demo').appendChild(name2);
+            document.getElementById('demo').innerHTML += '<h2>Nazwa:</h2>';
+            document.getElementById('demo').appendChild(lastname);
+            document.getElementById('demo').innerHTML += '<h2>Ilość:</h2>';
+            document.getElementById('demo').appendChild(number);
+        break;
+        
+        case 'Identyfikator strefowy':
+
+            document.getElementById("zone").style.display = '';   
+            document.getElementById("add").style.display = '';
+
+            document.getElementById('demo').innerHTML = '<h2>Imię:</h2>';
+            document.getElementById('demo').appendChild(name);
+            document.getElementById('demo').innerHTML += '<h2>Nazwisko:</h2>';
+            document.getElementById('demo').appendChild(name2);
+            document.getElementById('demo').innerHTML += '<h2>Nazwa:</h2>';
+            document.getElementById('demo').appendChild(lastname);
+            document.getElementById('demo').innerHTML += '<h2>Ilość:</h2>';
+            document.getElementById('demo').appendChild(number);
+        break;
+
+        case 'Wjazdówka':
+            document.getElementById("zone").style.display = 'none'; 
+            document.getElementById("add").style.display = '';
+
+            document.getElementById('demo').innerHTML = '<h2>Numer rejestracyjny:</h2>';
+            document.getElementById('demo').appendChild(name);
+        break;
+
+        default:
+            document.getElementById("zone").style.display = 'none'; 
+            document.getElementById('demo').innerHTML = '';
+            document.getElementById("add").style.display = 'none';
+    }
+
 }

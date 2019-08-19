@@ -1,8 +1,10 @@
 edytowac formularz edycji typów identów
 dodać do bazy kolumny edytowany przez, i daty utworzenia i edycji(ostatniej lub przy chęciach zrobić historię edycji)
 poprawić pdf
-poprawić czas sesji (po wlaczeniu serwera jestem zalogowany)
+
+poprawić czas sesji (po wlaczeniu serwera jestem zalogowany)(chyba wsio ok)
 dodać wyszukiwarkę
+
 poprawić wygląd strony głównej
 oczyścic kod
 

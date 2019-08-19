@@ -9,12 +9,10 @@
     $connect = @new mysqli($host,$db_user,$db_password,$db_name); 
     $types = mysqli_query($connect,"SELECT * FROM ident_type");
 
-    if(isset($_POST['identtype']))
+ /*    if(isset($_POST['identtype']))
     {
-        $_SESSION['type2'] = $_POST['identtype'];
-        //echo $_SESSION['type2'];
-        //include('add_ident_pt2.php'); 
-    }
+        $_SESSION['type2'] = $_POST['identtype'];         
+    } */
 ?>
 
 <!DOCTYPE html>
@@ -44,9 +42,6 @@
 <h1>Nowy identyfikator</h1>
 <div id="loginform">
 
-
-
-    
     <h2>Wybierz rodzaj identyfikatora:</h2>  
     <form method="post" id="form"> 
     <?php
@@ -73,9 +68,6 @@
 
         $zones = mysqli_query($connect,"SELECT * FROM zone");
 ?>
-
-<div id="demo"></div>
-
 <div id="zone" style="display: none;">
 
 <?php
@@ -93,50 +85,9 @@
     echo '</select>'
 ?>
 
-
-<h2>Nazwa</h2>
-<input type="text" name="name(2)" required>
-<h2>Imię(opcjonalnie)</h2>
-<input type="text" name="name_2(2)">
-<h2>Nazwisko(opcjonalnie)</h2>
-<input type="text" name="lastname(2)" >
-<h2>Ilość</h2>
-<input type="number" name="number_2" min="1" value=1>
-
-
-
 </div>
 
-
-
-<div id="nonzone" style="display: none;">
-
-
-<h2>Nazwa</h2>
-<input type="text" name="name" required>
-<h2>Imię(opcjonalnie)</h2>
-<input type="text" name="name_2">
-<h2>Nazwisko(opcjonalnie)</h2>
-<input type="text" name="lastname">
-<h2>Ilość</h2>
-<input type="number" name="number" min="1" value=1>
-
-
-</div>
-
-<div id="drive" style="display: none;">
-
-
-<h2>Numer rejestracyjny</h2>
-<input type="text" name="drive" required>
-
-</div>
-
-<div id="empty" style="display: none;">
-</div>
-
-</form>
-
+<div id="demo"></div>
 
 <div class="center">       
     
@@ -145,45 +96,41 @@
 
 </div>
 
-
 <?php
 
     if(isset($_POST['identtype']))
     {
-        $name = $_POST['name'];
-        $name_2 = $_POST['name_2'];
-        $lastname = $_POST['lastname'];
-        $name2 = $_POST['name(2)'];
-        $name_22 = $_POST['name_2(2)'];
-        $lastname2 = $_POST['lastname(2)'];
-        $madeby = $_SESSION['login'];  
-        $type = $_SESSION['type2']; 
         $zone = $_POST['zone'];
-        $drive = $_POST['drive'];
-        $seltype = $stype[1];
+
+        $name = $_POST['name'];
+        $name2 = $_POST['name2'];
+        $lastname = $_POST['lastname'];
         $number = $_POST['number'];
-        $number_2 = $_POST['number_2'];
+
+        $madeby = $_SESSION['login'];
+        $seltype = $stype[1];
+        $type = $stype[0];
         
-        switch($stype[0])
+        switch($type)
         {
             case('Identyfikator bezstrefowy'):
             for($i=0;$i<$number;$i++)
             {
-                $connect->query("INSERT INTO ident VALUES (NULL, '$name$drive$name2','$name_2$name_22','$lastname$lastname2','$madeby','$seltype','$zone')");
+                $connect->query("INSERT INTO ident VALUES (NULL, '$name','$name2','$lastname','$madeby',NULL,'$seltype',NULL)");
             }
             break;
             case('Identyfikator strefowy'):
-            for($i=0;$i<$number_2;$i++)
+            for($i=0;$i<$number;$i++)
             {
-                $connect->query("INSERT INTO ident VALUES (NULL, '$name$drive$name2','$name_2$name_22','$lastname$lastname2','$madeby','$seltype','$zone')");
+                $connect->query("INSERT INTO ident VALUES (NULL, '$name','$name2','$lastname','$madeby',NULL,'$seltype','$zone')");
             }
             break;
             case('Wjazdówka'):
-                $connect->query("INSERT INTO ident VALUES (NULL, '$name$drive$name2','$name_2$name_22','$lastname$lastname2','$madeby','$seltype','$zone')");
+                $connect->query("INSERT INTO ident VALUES (NULL, '$name',NULL,NULL,'$madeby',NULL,'$seltype','$zone')");
             break;
         }
             
-        if(($number>1) || $number_2>1)
+        if($number>1)
         {
             echo '<script>alert("Dodano identyfikatory");</script>';
         }
@@ -192,10 +139,7 @@
             echo '<script>alert("Dodano identyfikator");</script>';
         }
     }
-
 ?>
-
-
 
 </body>
 </html>
