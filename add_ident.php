@@ -103,9 +103,9 @@
         $zone = $_POST['zone'];
 
         $name = $_POST['name'];
-        $name2 = $_POST['name2'];
-        $lastname = $_POST['lastname'];
-        $number = $_POST['number'];
+        @$name2 = $_POST['name2'];
+        @$lastname = $_POST['lastname'];
+        @$number = $_POST['number'];
 
         $madeby = $_SESSION['login'];
         $seltype = $stype[1];
@@ -114,19 +114,19 @@
         switch($type)
         {
             case('Identyfikator bezstrefowy'):
-            for($i=0;$i<$number;$i++)
+            for($i=0;$i<=$number;$i++)
             {
-                $connect->query("INSERT INTO ident VALUES (NULL, '$name','$name2','$lastname','$madeby',NULL,'$seltype',NULL)");
+                $connect->query("INSERT INTO ident VALUES (NULL, '$name','$name2','$lastname','$madeby','','$seltype','')");
             }
             break;
             case('Identyfikator strefowy'):
-            for($i=0;$i<$number;$i++)
+            for($i=0;$i<=$number;$i++)
             {
-                $connect->query("INSERT INTO ident VALUES (NULL, '$name','$name2','$lastname','$madeby',NULL,'$seltype','$zone')");
+                $connect->query("INSERT INTO ident VALUES (NULL, '$name','$name2','$lastname','$madeby','','$seltype','$zone')");
             }
             break;
             case('Wjazdówka'):
-                $connect->query("INSERT INTO ident VALUES (NULL, '$name',NULL,NULL,'$madeby',NULL,'$seltype','$zone')");
+                $connect->query("INSERT INTO ident VALUES (NULL, '$name','','','$madeby','','$seltype','$zone')");
             break;
         }
             

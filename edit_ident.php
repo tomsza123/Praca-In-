@@ -46,7 +46,7 @@
 </head>
 <script type="text/javascript" src="script.js"></script>
 
-<body>
+<body onload="typeSelect();">
 <header>
     <div id="logo"></div>
         <a href="#" class="btn open-menu">&#9776;</a>
@@ -70,7 +70,7 @@
             echo '<select id="selected_type" name="identtype" onchange="typeSelect();">';
             while($r = mysqli_fetch_assoc($types)) 
             {
-                if($r['type'] == $type)//wybór przypisanego do identyfikaotra typu
+                if($r['type'] == $type)//wybór przypisanego do identyfikatora typu
                 {
                     echo '<option value="'.$r['type_2'].'|'.$r['type'].'" selected>';
                     echo $r['type'];
@@ -96,14 +96,7 @@
         $zones = mysqli_query($connect,"SELECT * FROM zone");
 ?>
 
-<div id="demo"> <?php echo $stype; ?> </div>
-
-<div id="zone" 
-<?php
-if ($stype == "Identyfikator strefowy") echo "";
-else echo 'style="display: none;"';
-?>
->
+<div id="zone" style.display='none'>
 <?php
     if(mysqli_num_rows($zones) > 0) 
     { 
@@ -128,110 +121,56 @@ else echo 'style="display: none;"';
     }
     echo '</select>';
 ?>
+    
 
-<h2>Nazwa</h2>
-<input type="text" name="zone_name" value=<?php echo'"'.$name.'" ';?> >
-<h2>Imię(opcjonalnie)</h2>
-<input type="text" name="zone_name_2" value=<?php echo'"'.$name_2.'" ';?> >
-<h2>Nazwisko(opcjonalnie)</h2>
-<input type="text" name="zone_lastname" value=<?php echo'"'.$lastname.'" ';?> >
 </div>
-
-
-
-<div id="nonzone" 
-
 <?php
-if ($stype == "Identyfikator bezstrefowy") echo '';
-else echo 'style="display: none;"';
+    echo '<script>';
+    echo 'var name_value = "'.$name.'";';
+    
+    echo 'var name2_value = "'.$name_2.'";';
+    echo 'var lastname_value = "'.$lastname.'";';
+    echo '</script>';
 ?>
->
 
-<h2>Nazwa</h2>
-<input type="text" name="nonzone_name" value=<?php echo'"'.$name.'" ';?>>
-<h2>Imię(opcjonalnie)</h2>
-<input type="text" name="nonzone_name_2" value=<?php echo'"'.$name_2.'" ';?>>
-<h2>Nazwisko(opcjonalnie)</h2>
-<input type="text" name="nonzone_lastname" value=<?php echo'"'.$lastname.'" ';?>>
-</div>
 
-<div id="drive"
-<?php
-if ($stype == "Wjazdówka") echo '';
-else echo 'style="display: none;"';
-?>
->
+<div id="demo"></div>
 
-<h2>Numer rejestracyjny</h2>
-<input type="text" name="drive" value=<?php echo'"'.$name.'" ';?>><!--pomysle moze nad walidacją rejestracji-->
-
-</div>
 </form>
-
 
 <div class="center">       
     
-    <button type="submit" form="form" class="button" id="edit" >Edytuj</button>       
+    <button type="submit" form="form" class="button" id="add" >Edytuj</button>       
     <button class="button" onclick="goBack()">Anuluj</button>
 
 </div>
-
 
 <?php
 
     if(isset($_POST['identtype']))
     {
-        $name = $_POST['zone_name'];
-        $name_2 = $_POST['zone_name_2'];
-        $lastname = $_POST['zone_lastname'];
+        $name = $_POST['name'];
+        @$name2 = $_POST['name2'];
+        @$lastname = $_POST['lastname'];
         $zone = $_POST['zone'];
-
-        $name2 = $_POST['nonzone_name'];
-        $name_22 = $_POST['nonzone_name_2'];
-        $lastname2 = $_POST['nonzone_lastname'];
-        
-        $drive = $_POST['drive'];
 
         $madeby = $_SESSION['login'];  
         $type = $_SESSION['type2'];
-        //$seltype = $stype[1];
+        
         $tab = explode("|",$_POST['identtype']);
         $selected= $tab[1];
 
-        
-        switch($stype)
+        if($tab[0] == 'Identyfikator strefowy')
         {
-            case('Identyfikator strefowy'):
-            $connect->query("UPDATE ident SET name = '$name', name_2 = '$name_2', lastname = '$lastname', type = '$selected', zone = '$zone' WHERE id = '$id'");
-            $connect->query("UPDATE ident SET name = '$name', name_2 = '$name_2', lastname = '$lastname', type = '$selected', zone = '$zone' WHERE id = '$id'");
-                //echo '<script>alert("Edytowano identyfikator");</script>';
-                $connect->close;
-                header("Location: idents.php");
-                break;
-
-            case('Identyfikator bezstrefowy'):
-            $connect->query("UPDATE ident SET name = '$name2', name_2 = '$name_22', lastname = '$lastname2', type = '$selected', zone = NULL WHERE id = '$id'");
-            $connect->query("UPDATE ident SET name = '$name2', name_2 = '$name_22', lastname = '$lastname2', type = '$selected', zone = NULL WHERE id = '$id'");
-                //echo '<script>alert("Edytowano identyfikator");</script>';
-                $connect->close;
-                header("Location: idents.php");
-
-                break;
-            
-            case('Wjazdówka'):
-            $connect->query("UPDATE ident SET name = '$drive', name_2 = NULL, lastname = NULL, type = '$selected', zone = NULL WHERE id = '$id'");
-            $connect->query("UPDATE ident SET name = '$drive', name_2 = NULL, lastname = NULL, type = '$selected', zone = NULL WHERE id = '$id'");
-                //echo '<script>alert("Edytowano identyfikator");</script>';
-                $connect->close;
-                header("Location: idents.php");
-                break;
-            default:
-                echo '<script>alert("Wystąpił błąd. Spróbuj ponownie.");</script>';
-                break;
-        }//zmiany wchodzą za drugim razem
+            $connect->query("UPDATE ident SET name = '$name', name_2 = '$name2', lastname = '$lastname', edited_by = CONCAT('$madeby','-',NOW(),'|'),type = '$selected', zone = '$zone' WHERE id = '$id'");
+        }
+        else
+        {
+            $connect->query("UPDATE ident SET name = '$name', name_2 = '$name2', lastname = '$lastname', edited_by = CONCAT('$madeby','-',NOW(),'|'), type = '$selected', zone = '' WHERE id = '$id'");
+        }
+        header('Location: idents.php');
     }
 ?>
-
 
 </body>
 </html>

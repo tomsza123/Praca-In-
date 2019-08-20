@@ -45,23 +45,36 @@ function typeSelect()
     name.setAttribute('type','text');
     name.setAttribute('id','name');
     name.setAttribute('name','name');
+    name.setAttribute('oninput','update();');
     name.required = "required";
     
     var name2 = document.createElement("input");
     name2.setAttribute('type','text');
     name2.setAttribute('id','name2');
     name2.setAttribute('name','name2');
+    name2.setAttribute('oninput','update();');
 
     var lastname = document.createElement("input");
     lastname.setAttribute('type','text');
     lastname.setAttribute('id','lastname');
     lastname.setAttribute('name','lastname');
+    lastname.setAttribute('oninput','update();');
 
     var number = document.createElement("input");
     number.setAttribute('type','number');
     number.setAttribute('id','number');
     number.setAttribute('name','number');
     number.setAttribute('min',1);
+    
+    if(window.location.pathname == '/edit_ident.php')
+    {
+        name.setAttribute('value', name_value);  
+        name2.setAttribute('value', name2_value); 
+        lastname.setAttribute('value', lastname_value);
+    }
+
+    
+    //console.log(name)
 
     switch(type[0])
     {
@@ -75,8 +88,12 @@ function typeSelect()
             document.getElementById('demo').appendChild(name2);
             document.getElementById('demo').innerHTML += '<h2>Nazwa:</h2>';
             document.getElementById('demo').appendChild(lastname);
-            document.getElementById('demo').innerHTML += '<h2>Ilość:</h2>';
-            document.getElementById('demo').appendChild(number);
+            if(window.location.pathname == '/add_ident.php')
+            {
+                document.getElementById('demo').innerHTML += '<h2>Ilość:</h2>';
+                document.getElementById('demo').appendChild(number);
+            }
+            
         break;
         
         case 'Identyfikator strefowy':
@@ -90,8 +107,11 @@ function typeSelect()
             document.getElementById('demo').appendChild(name2);
             document.getElementById('demo').innerHTML += '<h2>Nazwa:</h2>';
             document.getElementById('demo').appendChild(lastname);
-            document.getElementById('demo').innerHTML += '<h2>Ilość:</h2>';
-            document.getElementById('demo').appendChild(number);
+            if(window.location.pathname == '/add_ident.php')
+            {
+                document.getElementById('demo').innerHTML += '<h2>Ilość:</h2>';
+                document.getElementById('demo').appendChild(number);
+            }
         break;
 
         case 'Wjazdówka':
@@ -107,5 +127,19 @@ function typeSelect()
             document.getElementById('demo').innerHTML = '';
             document.getElementById("add").style.display = 'none';
     }
-
+}
+function update() 
+{
+    if(document.getElementById('name'))
+    {
+        name_value = document.getElementById("name").value;document.getElementById('name').setAttribute('value', name_value);
+    }
+    if(document.getElementById('name2'))
+    {
+        name2_value = document.getElementById("name2").value;document.getElementById('name2').setAttribute('value', name2_value);
+    }
+    if(document.getElementById('lastname'))
+    {
+        lastname_value = document.getElementById("lastname").value;document.getElementById('lastname').setAttribute('value', lastname_value);
+    }
 }
