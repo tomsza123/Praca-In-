@@ -144,7 +144,7 @@ function update()
     }
 }
 
-function identType()
+/* function identType()
 {
     var type = document.getElementById("ident_type_2").value;
     
@@ -157,3 +157,4 @@ function identType()
         document.getElementById("zone").style.display = "none";
     }
 }
+ */

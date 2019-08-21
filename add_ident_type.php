@@ -151,12 +151,6 @@ if(isset($_POST['ident_type']))
         </div> 
         
 </div>
-
 </section>
-
-
 </body>
-
-
-
 </html>

@@ -1,9 +1,8 @@
-1. edytowac formularz edycji typów identów
-2. ident_types.php - poprawić warning z headerem, ustawić wyświetlanie tła jako popupa (tu pomóc może js)
-3. poprawić pdf
-4. dodać wyszukiwarkę
-5. dodać tabelkę "pokaż strefy"
-6. poprawić wygląd strony głównej i przycisków na dole pod tabelkami
-7. oczyścic kod
-8. poprawić czas sesji (po wlaczeniu serwera jestem zalogowany)(chyba wsio ok)
-9. po kliknieciu typu identyfikatora fajnie by bylo gdyby nastapiło przekierowanie do formularza dodającego ident z klikniętym wcześniej typem
+1. ident_types.php - poprawić warning z headerem, ustawić wyświetlanie tła jako popupa (tu pomóc może js)
+2. poprawić pdf
+3. dodać wyszukiwarkę
+4. dodać tabelkę "pokaż strefy"
+5. poprawić wygląd strony głównej i przycisków na dole pod tabelkami
+6. oczyścic kod
+7. poprawić czas sesji (po wlaczeniu serwera jestem zalogowany)(chyba wsio ok)
+8. po kliknieciu typu identyfikatora fajnie by bylo gdyby nastapiło przekierowanie do formularza dodającego ident z klikniętym wcześniej typem
