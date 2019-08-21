@@ -141,7 +141,7 @@
 <div class="center">       
     
     <button type="submit" form="form" class="button" id="add" >Edytuj</button>       
-    <button class="button" onclick="goBack()">Anuluj</button>
+    <button class="button" onclick="location.href='idents.php';">Anuluj</button>
 
 </div>
 
@@ -162,11 +162,11 @@
 
         if($tab[0] == 'Identyfikator strefowy')
         {
-            $connect->query("UPDATE ident SET name = '$name', name_2 = '$name2', lastname = '$lastname', edited_by = CONCAT('$madeby','-',NOW(),'|'),type = '$selected', zone = '$zone' WHERE id = '$id'");
+            $connect->query("UPDATE ident SET name = '$name', name_2 = '$name2', lastname = '$lastname', edited_by = CONCAT(edited_by,'|','$madeby','-',NOW(),'|'),type = '$selected', zone = '$zone' WHERE id = '$id'");
         }
         else
         {
-            $connect->query("UPDATE ident SET name = '$name', name_2 = '$name2', lastname = '$lastname', edited_by = CONCAT('$madeby','-',NOW(),'|'), type = '$selected', zone = '' WHERE id = '$id'");
+            $connect->query("UPDATE ident SET name = '$name', name_2 = '$name2', lastname = '$lastname', edited_by = CONCAT(edited_by,'|','$madeby','-',NOW(),'|'), type = '$selected', zone = '' WHERE id = '$id'");
         }
         header('Location: idents.php');
     }

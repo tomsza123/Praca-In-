@@ -143,3 +143,17 @@ function update()
         lastname_value = document.getElementById("lastname").value;document.getElementById('lastname').setAttribute('value', lastname_value);
     }
 }
+
+function identType()
+{
+    var type = document.getElementById("ident_type_2").value;
+    
+    if(type == 'Identyfikator strefowy')
+    {
+        document.getElementById("zone").style.display = "initial";
+    }
+    else
+    {
+        document.getElementById("zone").style.display = "none";
+    }
+}
