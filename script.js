@@ -144,17 +144,23 @@ function update()
     }
 }
 
-/* function identType()
+function showHistory(index)
 {
-    var type = document.getElementById("ident_type_2").value;
-    
-    if(type == 'Identyfikator strefowy')
+    var value = document.getElementById("editedBy"+index).getAttribute("value")
+    if(document.getElementById("editedBy"+index).textContent == "Pokaż")
     {
-        document.getElementById("zone").style.display = "initial";
+        if(value != "")
+        {
+            document.getElementById("editedBy"+index).innerHTML = value;
+        }
+        else
+        {
+            document.getElementById("editedBy"+index).innerHTML = "Brak";
+        }
+        
     }
     else
     {
-        document.getElementById("zone").style.display = "none";
+        document.getElementById("editedBy"+index).innerHTML = "Pokaż"
     }
 }
- */

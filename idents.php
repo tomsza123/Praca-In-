@@ -125,6 +125,7 @@
 
     if(mysqli_num_rows($idents) > 0) 
     {
+        $index = 0;
         
         /* jeżeli wynik jest pozytywny, to wyświetlamy dane */
         echo "";
@@ -137,7 +138,7 @@
             echo "<td>".$r['name_2']."</td>";
             echo "<td>".$r['lastname']."</td>";
             echo "<td>".$r['madeby']."</td>";
-            echo "<td>".$r['edited_by']."</td>"; 
+            echo '<td id="editedBy'.$index.'" onclick="showHistory('.$index.');" class="edithistory" value="'.$r['edited_by'].'">Pokaż</td>'; 
             echo "<td>".$r['type']."</td>";
             echo "<td>".$r['zone']."</td>";
             echo "<td>
@@ -145,15 +146,16 @@
            <a href=\"edit_ident.php?id={$r['id']}\">Edytuj</a>
            </td>";
             echo "</tr>";
+            $index++;
         }
     }
 ?>
 </table>
 <div>
-<div class="center">
+<div id="footer">
 
         <!--<button class="button" onclick="window.location.href='add_ident.php' ">Dodaj identyfikator</button>-->
-        <button class="submit" name="add" value="add">Dodaj identyfikator</button>
+        <button class="submit" name="add" value="add">Dodaj kolejny</button>
         <!--<button class="submit"><a href="add_ident.php">Dodaj nowy</a></button>-->
         <button class="submit" name="generate" value="generate">Wygeneruj wybrane</button>
         <button class="submit" name="delete" value="delete">Usuń wybrane</button>
@@ -162,9 +164,9 @@
 </form>
 
 </section>
-<div id="footer">
+<!-- <div id="footer">
     <b>prawa zaszczeżone</b>
-</div>
+</div> -->
 </body>
 </html>
 

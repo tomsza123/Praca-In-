@@ -50,6 +50,7 @@
 <ul>
     <li><a href="idents.php" >Pokaż identyfikatory</a></li>
     <li><a href="ident_types.php" >Pokaż typy identyfikatorów</a></li>
+    <li><a href="zones.php" >Pokaż strefy</a></li>
 </ul>
 </div>
 
@@ -58,9 +59,7 @@
 
 
 </section>
-<div id="footer">
-    <b>prawa zaszczeżone</b>
-</div>
+
 
 </body>
 

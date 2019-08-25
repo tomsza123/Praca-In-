@@ -7,8 +7,6 @@
     }
 ?>
 
-
-
 <!DOCTYPE html>
 <html lang="pl" dir="ltr">
 <head>
@@ -48,9 +46,7 @@
 </div>
 
 </section>
-<div id="footer">
-    <b>prawa zaszczeżone</b>
-</div>
+
 
 </body>
 

@@ -143,7 +143,7 @@ background-color:#0f5c66;
     padding: 15px;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 15px bold;
-    background-color: cornflowerblue;   
+    //background-color: cornflowerblue;   
     position: fixed; 
     bottom:0;
 }
@@ -176,7 +176,7 @@ input,select
 
 
 
-.button
+.button,.submit
 {
     background-color: rgb(76, 170, 177); 
     border: none;
@@ -194,7 +194,7 @@ input,select
     cursor: pointer;
 }
 
-.button:hover 
+.button,.submit:hover 
 {
     background-color: rgb(58, 129, 133);
 }
@@ -291,10 +291,10 @@ input,select
         box-sizing: border-box;
         font-size:20px;
     }
-    #footer
+    /* #footer
     {
         display:none;
-    }
+    } */
     h1{padding:0;}
 
 }
