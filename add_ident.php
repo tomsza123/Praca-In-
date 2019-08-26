@@ -13,6 +13,22 @@
     {
         $_SESSION['type2'] = $_POST['identtype'];         
     } */
+
+    //$s = 0;
+    if(isset($_GET['s']))
+    {
+        $s = $_GET['s'];
+        $ident = mysqli_query($connect,"SELECT * FROM ident_type WHERE id = $s");
+
+        while($row = mysqli_fetch_array($ident)) 
+        {
+            $type = $row['type'];
+            $type_2 = $row['type_2'];
+        }
+        //echo $type;
+    }
+    
+
 ?>
 
 <!DOCTYPE html>
@@ -26,7 +42,7 @@
 <script src="http://code.jquery.com/jquery-latest.pack.js" type="text/javascript"></script>
 </head>
 <script type="text/javascript" src="script.js"></script>
-<body>
+<body <?php if(isset($s))echo 'onload="typeSelect();"';?>>
 <header>
     <div id="logo"></div>
         <a href="#" class="btn open-menu">&#9776;</a>
@@ -46,17 +62,44 @@
     <form method="post" id="form"> 
     <?php
         if(mysqli_num_rows($types) > 0) 
-        { 
-            echo '<select id="selected_type" name="identtype" onchange="typeSelect();">';
+        {
+            if(isset($s))
+            {
+                echo '<select id="selected_type" name="identtype" onchange="typeSelect();">';
             
-            echo'<option value="Pusty|" >';
-            while($r = mysqli_fetch_assoc($types)) 
-            { 
-                echo '<option value="'.$r['type_2'].'|'.$r['type'].'" >';
-                echo $r['type'];
-                echo '</option>';
-            }  
-            echo '</select>';
+                //echo'<option value="Pusty|" >';
+                while($r = mysqli_fetch_assoc($types)) 
+                { 
+                    if($r['type']==$type)
+                    {
+                        echo '<option value="'.$r['type_2'].'|'.$r['type'].'" selected >';
+                    echo $r['type'];
+                    }
+                    else
+                    {
+                        echo '<option value="'.$r['type_2'].'|'.$r['type'].'" >';
+                        echo $r['type'];
+                        echo '</option>';
+                    }
+                    
+                }  
+                echo '</select>';
+
+            }
+            else
+            {
+                echo '<select id="selected_type" name="identtype" onchange="typeSelect();">';
+            
+                echo'<option value="Pusty|" >';
+                while($r = mysqli_fetch_assoc($types)) 
+                { 
+                    echo '<option value="'.$r['type_2'].'|'.$r['type'].'" >';
+                    echo $r['type'];
+                    echo '</option>';
+                }  
+                echo '</select>';
+            }
+            
         }
         if(isset($_POST['identtype']))
         {

@@ -151,7 +151,9 @@ function showHistory(index)
     {
         if(value != "")
         {
-            document.getElementById("editedBy"+index).innerHTML = value;
+            //document.getElementById("editedBy"+index).innerHTML = value;
+            var show = value.replace("||","\n")
+            alert(show);
         }
         else
         {
@@ -163,4 +165,18 @@ function showHistory(index)
     {
         document.getElementById("editedBy"+index).innerHTML = "Pokaż"
     }
+}
+function showBackground(id)
+{
+    
+    var img = document.getElementById("td"+id).getAttribute("value")
+    console.log(img)
+    var modal = document.createElement("div")
+    modal.setAttribute("id","modal")
+    modal.innerHTML = '<img src="'+img+'">'
+    var exit = document.createElement("span")
+    exit.setAttribute("id","exit")
+    exit.innerHTML = '&times'
+    document.body.appendChild(modal)
+    modal.appendChild(exit)
 }

@@ -1,7 +1,5 @@
-1. ident_types.php - poprawić warning z headerem, ustawić wyświetlanie tła jako popupa (tu pomóc może js)
-2. poprawić pdf
-3. dodać wyszukiwarkę
-4. oczyścic kod
-5. poprawić czas sesji (po wlaczeniu serwera jestem zalogowany)(chyba wsio ok)
-6. po kliknieciu typu identyfikatora fajnie by bylo gdyby nastapiło przekierowanie do formularza dodającego ident z klikniętym wcześniej typem
-7.zrobić wyswietlanie historii edycji jako pop-up
+1. ident_types.php - poprawić warning z headerem, ustawić 
+2. dodać wyszukiwarkę
+3. poprawić pdf
+4. poprawić czas sesji (po wlaczeniu serwera jestem zalogowany)(chyba wsio ok)
+5. oczyścic kod

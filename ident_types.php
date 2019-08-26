@@ -82,15 +82,15 @@
         
         while($r = mysqli_fetch_array($ident_type)) 
         {
-            
             echo "<tr>";
             echo '<td> <input type="checkbox" name="checkbox[]" value="'.$r['id'].'"></input> </td>';
             echo "<td>".$r['id']."</td>";
-            echo "<td>".$r['type']."</td>";
-            echo '<td><a href="'.$r['background'].'">Pokaż tło</a></td>';
+            echo "<td onclick="."document.location='add_ident.php?s=".$r['id']."' style='cursor:hand'>".$r['type']."</td>";
+            echo '<td id="td'.$r['id'].'" value="'.$r['background'].'" '.'onclick="showBackground('.$r['id'].')">Pokaż tło</td>';
+            //echo '<td onclick="showBackground()"><a href="'.$r['background'].'">Pokaż tło</a></td>';
             echo "<td>".$r['type_2']."</td>";
             echo "<td>".$r['comment']."</td>";
-            echo "<td>".$r['madeby']."</td>";                        
+            echo "<td>".$r['madeby']."</td>"; 
             echo "<td>
            <a href=\"ident_types.php?a=del&amp;id={$r['id']}\">Usuń</a>
            <a href=\"edit_ident_type.php?id={$r['id']}\">Edytuj</a>
