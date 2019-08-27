@@ -141,7 +141,7 @@
         while($r = mysqli_fetch_array($idents)) 
         {
             echo "<tr>";
-            echo '<td> <input type="checkbox" name="checkbox[]" value="'.$r['id'].'"></input> </td>';
+            echo '<td> <input type="checkbox" name="checkbox[]" class="checkbox" value="'.$r['id'].'"></input> </td>';
             echo "<td>".$r['id']."</td>";
             echo "<td>".$r['name']."</td>";
             echo "<td>".$r['name_2']."</td>";
