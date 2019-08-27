@@ -151,7 +151,6 @@ function showHistory(index)
     {
         if(value != "")
         {
-            //document.getElementById("editedBy"+index).innerHTML = value;
             var show = value.replace("||","\n")
             alert(show);
         }
@@ -174,8 +173,6 @@ function showBackground(id)
 
     var modal = document.querySelector(".modal");
     modal.classList.toggle("show-modal");
-
-    
 }
 function closeModal()
 {

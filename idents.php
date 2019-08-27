@@ -6,8 +6,6 @@
         header('Location: index.php');
         
     }
-    //require('fpdf.php');
-    //header('location: idents.php');
     require_once "connect.php";
     $connect = @new mysqli($host,$db_user,$db_password,$db_name);
 
@@ -17,11 +15,10 @@
         $connect->query("DELETE FROM ident WHERE id = '$id'");
         unset($_GET['id']);
         unset($_GET['a']);
-        //$connect->close();
         header("location: idents.php?");
         
     }
-    if(isset($_POST['generate']))//do generowania pdfów
+    if(isset($_POST['generate']))
     {        
         if(!empty($_POST['checkbox']))
         {
@@ -34,7 +31,6 @@
             $_SESSION['howmuch'] = $i;
             $_SESSION['idents'] = $sel;
             header('location: generate.php');
-            
         }
     }
     if(isset($_POST['delete']))//do usuwania identów
@@ -68,12 +64,20 @@
 <script type="text/javascript" src="script.js"></script>
 <body>
 <header>
-    <div id="logo"></div>
+    <div id="logo">
+        <div class="search-container">
+            <form action="/idents.php">
+                <input id="search" type="text" placeholder="Wyszukaj.." name="find">
+                <!--  -->
+            </form>
+        </div>  
+    </div>
         <a href="#" class="btn open-menu">&#9776;</a>
 	    <nav class="clearfix">
 		    <a href="#" class="btn hide">&laquo; Zamknij</a>
             <a href="main.php" class="btn">Główna</a>
-            <a href="logout.php" class="btn">Wyloguj</a>          
+            <a href="logout.php" class="btn">Wyloguj</a>       
+            
 	    </nav>
 </header>
 <section class="container">
@@ -91,19 +95,27 @@
     <th><a href="idents.php?s=edited_by&amp;order=<?php echo isset($_GET['order'])?!$_GET['order']:1; ?>">Edytowany przez</a></th>
     <th><a href="idents.php?s=type&amp;order=<?php echo isset($_GET['order'])?!$_GET['order']:1; ?>">Typ</a></th>
     <th><a href="idents.php?s=zone&amp;order=<?php echo isset($_GET['order'])?!$_GET['order']:1; ?>">Strefa</a></th>
-    <th>Usuń/Edytuj</th>
+    <th>Akcja</th>
 </tr>
 </thead>
 <?php
-    
-
-    
-
-    
-
     if(!isset($_GET['s']))
     {
-        $idents = mysqli_query($connect,"SELECT * FROM ident ");
+        if(isset($_GET['find']))
+        {
+            $find = '"'.$_GET['find'].'"';
+            
+            $idents = mysqli_query($connect,"SELECT * FROM ident WHERE id = $find OR name = $find OR name_2 = $find OR lastname = $find OR madeby = $find OR type = $find OR zone = $find");
+
+            if($idents == false)
+            {
+                echo "Brak wyników";
+            }
+        }
+        else
+        {
+            $idents = mysqli_query($connect,"SELECT * FROM ident ");
+        }
     }
     else
     {
@@ -117,10 +129,7 @@
         else
         {
             $idents = mysqli_query($connect,"SELECT * FROM ident ORDER BY $s DESC");
-            
         }
-        
-        
     }
 
     if(mysqli_num_rows($idents) > 0) 
