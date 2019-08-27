@@ -7,7 +7,7 @@
     }
 ?>
 
-
+<div id="modal"></div>
 <!DOCTYPE html>
 <html lang="pl" dir="ltr">
 <head>
@@ -30,6 +30,7 @@
             				
 	    </nav>
 </header>
+
 <section class="container">
 
 
@@ -100,7 +101,9 @@
     }
 ?>
 </table>
-<div>
+
+
+
 <div id="footer">
 
         <!--<button class="button" onclick="window.location.href='add_ident.php' ">Dodaj identyfikator</button>-->

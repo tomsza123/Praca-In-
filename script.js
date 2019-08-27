@@ -168,15 +168,16 @@ function showHistory(index)
 }
 function showBackground(id)
 {
-    
     var img = document.getElementById("td"+id).getAttribute("value")
-    console.log(img)
-    var modal = document.createElement("div")
-    modal.setAttribute("id","modal")
-    modal.innerHTML = '<img src="'+img+'">'
-    var exit = document.createElement("span")
-    exit.setAttribute("id","exit")
-    exit.innerHTML = '&times'
-    document.body.appendChild(modal)
-    modal.appendChild(exit)
+    
+    document.getElementById("modal").innerHTML = '<div class="modal"><div class="modal-content"><div class="close-button" onclick="closeModal();">&times;</div><img src="'+img+'"></div><div></div>'
+
+    var modal = document.querySelector(".modal");
+    modal.classList.toggle("show-modal");
+
+    
+}
+function closeModal()
+{
+    document.getElementById("modal").innerHTML = "";
 }

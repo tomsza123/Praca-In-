@@ -7,6 +7,8 @@ body
     background-color:#EBEBEB;
     font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
     position:relative;
+    user-select: none;
+    -moz-user-select: none;
 }
 header
 {
@@ -351,18 +353,52 @@ thead {
     margin: 20px 100px;
     position: relative;
 }
-#modal
+.modal 
 {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    z-index: 10;
+}
+
+.modal-content 
+{
+    position: absolute;
     top: 50%;
     left: 50%;
-    position: absolute;
-    transform: translate(-50%,-30%);
-    border: 2px solid;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 1rem 1.5rem;
+    
+    border-radius: 0.5rem;
 }
-#exit
+.close-button 
 {
-    font-size:25px;
-    border: 1px solid;
-    max-width: 30px;
-    z-index: 2;
+    float: right;
+    width: 1.5rem;
+    line-height: 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 0.25rem;
+    background-color: lightgray;
+    margin-bottom:10px;
+}
+.close-button:hover 
+{
+    background-color: darkgray;
+}
+.show-modal 
+{
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1.0);
+}
+img
+{
+    width: 24rem;
 }
