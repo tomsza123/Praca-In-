@@ -1,5 +1,0 @@
-https://www.php.net/manual/en/image.examples-watermark.php <<dodawanie elememnt�w do grafiki
-
-https://www.qr-online.pl/kody-qr.html <<qr kody
-
-https://stackoverflow.com/questions/31179156/a-switch-between-ascending-and-descending-table-rows-on-a-tableheader-click<< sortowanie
