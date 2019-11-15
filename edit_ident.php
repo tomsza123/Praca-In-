@@ -21,7 +21,7 @@
     {
         $name = $row['name'];        
         $name_2 = $row['name_2'];
-        $lastname = $row['lastname'];
+        $lastname = $row['last_name'];
         $type = $row['type'];
         $sel_zone = $row['zone'];
     }
@@ -70,9 +70,9 @@
             echo '<select id="selected_type" name="identtype" onchange="typeSelect();">';
             while($r = mysqli_fetch_assoc($types)) 
             {
-                if($r['type'] == $type)//wybór przypisanego do identyfikatora typu
+                if($r['id'] == $type)//wybór przypisanego do identyfikatora typu
                 {
-                    echo '<option value="'.$r['type_2'].'|'.$r['type'].'" selected>';
+                    echo '<option value="'.$r['type_2'].'|'.$r['type'].'|'.$r['id'].'" selected>';
                     echo $r['type'];
                     echo '</option>';
                     $stype = $r['type_2'];
@@ -80,7 +80,7 @@
                 } 
                 else
                 {
-                    echo '<option value="'.$r['type_2'].'|'.$r['type'].'" >';
+                    echo '<option value="'.$r['type_2'].'|'.$r['type'].'|'.$r['id'].'" >';
                     echo $r['type'];
                     echo '</option>';
                 }
@@ -104,19 +104,24 @@
         //echo'<option value="" selected>';
         while($r = mysqli_fetch_assoc($zones)) 
         {   //wybór wczesniejszej strefy dopisac jw z wybrorem typu
-            if($r['zone']==$sel_zone)
+            if($r['id'] != 1)
             {
-                echo '<option value="'.$r['zone'].'"selected >';
-                echo $r['zone'];
-                echo '</option>';
-                
+                if($r['zone']==$sel_zone)
+                {
+                    echo '<option value="'.$r['id'].'"selected >';
+                    echo $r['zone'];
+                    echo '</option>';
+                    
+                }
+                else
+                {
+                    echo '<option value="'.$r['id'].'" >';
+                    echo $r['zone'];
+                    echo '</option>';
+                }
             }
-            else
-            {
-                echo '<option value="'.$r['zone'].'" >';
-                echo $r['zone'];
-                echo '</option>';
-            }
+
+            
         }  
     }
     echo '</select>';
@@ -158,15 +163,15 @@
         $type = $_SESSION['type2'];
         
         $tab = explode("|",$_POST['identtype']);
-        $selected= $tab[1];
+        $selected= $tab[2];
 
         if($tab[0] == 'Identyfikator strefowy')
         {
-            $connect->query("UPDATE ident SET name = '$name', name_2 = '$name2', lastname = '$lastname', edited_by = CONCAT(edited_by,'|','$madeby','-',NOW(),'|'),type = '$selected', zone = '$zone' WHERE id = '$id'");
+            $connect->query("UPDATE ident SET name = '$name', name_2 = '$name2', last_name = '$lastname', edited_by = CONCAT(edited_by,'|','$madeby','-',NOW(),'|'),type = '$selected', zone = '$zone' WHERE id = '$id'");
         }
         else
         {
-            $connect->query("UPDATE ident SET name = '$name', name_2 = '$name2', lastname = '$lastname', edited_by = CONCAT(edited_by,'|','$madeby','-',NOW(),'|'), type = '$selected', zone = '' WHERE id = '$id'");
+            $connect->query("UPDATE ident SET name = '$name', name_2 = '$name2', last_name = '$lastname', edited_by = CONCAT(edited_by,'|','$madeby','-',NOW(),'|'), type = '$selected', zone = 1 WHERE id = '$id'");
         }
         header('Location: idents.php');
     }

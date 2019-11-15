@@ -41,7 +41,7 @@
 <ul>
     <li><a href="registration.php" >Dodaj nowego administratora</a></li>
     <li><a href="add_ident.php" >Dodaj identyfikator</a></li>
-    <li><a href="add_ident_type.php">Dodaj nowy typ identyfikatora</a></li>    
+    <li><a href="add_ident_type.php">Dodaj nowy rodzaj identyfikatora</a></li>    
     <li><a href="add_zone.php">Dodaj strefę</a></li>
 </ul>
 </div>
@@ -49,7 +49,7 @@
 <div id="editmenu">
 <ul>
     <li><a href="idents.php" >Pokaż identyfikatory</a></li>
-    <li><a href="ident_types.php" >Pokaż typy identyfikatorów</a></li>
+    <li><a href="ident_types.php" >Pokaż rodzaje identyfikatorów</a></li>
     <li><a href="zones.php" >Pokaż strefy</a></li>
 </ul>
 </div>

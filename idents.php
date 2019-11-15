@@ -59,6 +59,7 @@
 <!-- mobile meta tag -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="css/fontello.css">
 <script src="http://code.jquery.com/jquery-latest.pack.js" type="text/javascript"></script>
 </head>
 <script type="text/javascript" src="script.js"></script>
@@ -75,7 +76,7 @@
         <a href="#" class="btn open-menu">&#9776;</a>
 	    <nav class="clearfix">
 		    <a href="#" class="btn hide">&laquo; Zamknij</a>
-            <a href="main.php" class="btn">Główna</a>
+            <a href="main.php" class="btn">Panel administratora</a>
             <a href="logout.php" class="btn">Wyloguj</a>       
             
 	    </nav>
@@ -88,13 +89,13 @@
 <tr>
     <th><input type="checkbox" onClick="toggle(this)" /> <br/></th><!--mozna poprawic na metode post-->
     <th><a href="idents.php?s=id&amp;order=<?php echo isset($_GET['order'])?!$_GET['order']:1; ?>">Id</a></th>
-    <th><a href="idents.php?s=name&amp;order=<?php echo isset($_GET['order'])?!$_GET['order']:1; ?>">Nazwa</a></th>
-    <th><a href="idents.php?s=name_2&amp;order=<?php echo isset($_GET['order'])?!$_GET['order']:1; ?>">Imię</a></th>
-    <th><a href="idents.php?s=lastname&amp;order=<?php echo isset($_GET['order'])?!$_GET['order']:1; ?>">Nazwisko</a></th>
+    <th><a href="idents.php?s=name&amp;order=<?php echo isset($_GET['order'])?!$_GET['order']:1; ?>">Imię</a></th>
+    <th><a href="idents.php?s=last_name&amp;order=<?php echo isset($_GET['order'])?!$_GET['order']:1; ?>">Nazwisko</a></th>
+    <th><a href="idents.php?s=name_2&amp;order=<?php echo isset($_GET['order'])?!$_GET['order']:1; ?>">Nazwa</a></th>
     <th><a href="idents.php?s=madeby&amp;order=<?php echo isset($_GET['order'])?!$_GET['order']:1; ?>">Utworzony przez</a></th>
     <th><a href="idents.php?s=edited_by&amp;order=<?php echo isset($_GET['order'])?!$_GET['order']:1; ?>">Edytowany przez</a></th>
-    <th><a href="idents.php?s=type&amp;order=<?php echo isset($_GET['order'])?!$_GET['order']:1; ?>">Typ</a></th>
-    <th><a href="idents.php?s=zone&amp;order=<?php echo isset($_GET['order'])?!$_GET['order']:1; ?>">Strefa</a></th>
+    <th><a href="idents.php?s=ident_type.type&amp;order=<?php echo isset($_GET['order'])?!$_GET['order']:1; ?>">Rodzaj</a></th>
+    <th><a href="idents.php?s=zone.zone&amp;order=<?php echo isset($_GET['order'])?!$_GET['order']:1; ?>">Strefa</a></th>
     <th>Akcja</th>
 </tr>
 </thead>
@@ -105,7 +106,7 @@
         {
             $find = '"'.$_GET['find'].'"';
             
-            $idents = mysqli_query($connect,"SELECT * FROM ident WHERE id = $find OR name = $find OR name_2 = $find OR lastname = $find OR madeby = $find OR type = $find OR zone = $find");
+            $idents = mysqli_query($connect,"SELECT ident.*, users.login, zone.zone, ident_type.type FROM ident INNER JOIN users ON ident.madeby = users.id INNER JOIN zone ON ident.zone = zone.id INNER JOIN ident_type ON ident.type = ident_type.id WHERE ident.id = $find OR ident.name = $find OR ident.name_2 = $find OR ident.last_name = $find OR users.login = $find OR ident_type.type = $find OR zone.zone = $find");
 
             if($idents == false)
             {
@@ -114,7 +115,8 @@
         }
         else
         {
-            $idents = mysqli_query($connect,"SELECT * FROM ident ");
+            $idents = mysqli_query($connect,"SELECT ident.*, users.login, zone.zone, ident_type.type FROM ident INNER JOIN users ON ident.madeby = users.id INNER JOIN zone ON ident.zone = zone.id INNER JOIN ident_type ON ident.type = ident_type.id");
+            //$idents = mysqli_query($connect,"SELECT * FROM ident");
         }
     }
     else
@@ -124,11 +126,11 @@
         
         if($order == 1)
         {
-            $idents = mysqli_query($connect,"SELECT * FROM ident ORDER BY $s ASC");
+            $idents = mysqli_query($connect,"SELECT ident.*, users.login, zone.zone, ident_type.type FROM ident INNER JOIN users ON ident.madeby = users.id INNER JOIN zone ON ident.zone = zone.id INNER JOIN ident_type ON ident.type = ident_type.id ORDER BY $s ASC");
         }
         else
         {
-            $idents = mysqli_query($connect,"SELECT * FROM ident ORDER BY $s DESC");
+            $idents = mysqli_query($connect,"SELECT ident.*, users.login, zone.zone, ident_type.type FROM ident INNER JOIN users ON ident.madeby = users.id INNER JOIN zone ON ident.zone = zone.id INNER JOIN ident_type ON ident.type = ident_type.id ORDER BY $s DESC");
         }
     }
 
@@ -144,15 +146,16 @@
             echo '<td> <input type="checkbox" name="checkbox[]" class="checkbox" value="'.$r['id'].'"></input> </td>';
             echo "<td>".$r['id']."</td>";
             echo "<td>".$r['name']."</td>";
+            
+            echo "<td>".$r['last_name']."</td>";
             echo "<td>".$r['name_2']."</td>";
-            echo "<td>".$r['lastname']."</td>";
-            echo "<td>".$r['madeby']."</td>";
-            echo '<td id="editedBy'.$index.'" onclick="showHistory('.$index.');" class="edithistory" value="'.$r['edited_by'].'">Pokaż</td>'; 
+            echo "<td>".$r['login']."</td>";
+            echo '<td id="editedBy'.$index.'" onclick="showHistory('.$index.');" class="edithistory" value="'.$r['edited_by'].'"><i class = "demo-icon icon-eye"></i></td>'; 
             echo "<td>".$r['type']."</td>";
             echo "<td>".$r['zone']."</td>";
             echo "<td>
-           <a href=\"idents.php?a=del&amp;id={$r['id']}\">Usuń</a>
-           <a href=\"edit_ident.php?id={$r['id']}\">Edytuj</a>
+           <a href=\"idents.php?a=del&amp;id={$r['id']}\"><i class='demo-icon icon-trash-circled'></i></a>
+           <a href=\"edit_ident.php?id={$r['id']}\"><i class='demo-icon icon-pencil-circled'></i></a>
            </td>";
             echo "</tr>";
             $index++;
@@ -160,19 +163,20 @@
     }
 ?>
 </table>
-<div>
+
+</section>
 <div id="footer">
 
+    <div id="btn-center">
         <!--<button class="button" onclick="window.location.href='add_ident.php' ">Dodaj identyfikator</button>-->
         <button class="submit" name="add" value="add">Dodaj kolejny</button>
         <!--<button class="submit"><a href="add_ident.php">Dodaj nowy</a></button>-->
         <button class="submit" name="generate" value="generate">Wygeneruj wybrane</button>
         <button class="submit" name="delete" value="delete">Usuń wybrane</button>
-        </form>
+    </div>
+    </form>
 </div>
-</form>
-
-</section>
+<div>
 <!-- <div id="footer">
     <b>prawa zaszczeżone</b>
 </div> -->

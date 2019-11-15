@@ -46,19 +46,21 @@ function typeSelect()
     name.setAttribute('id','name');
     name.setAttribute('name','name');
     name.setAttribute('oninput','update();');
-    name.required = "required";
-    
+
     var name2 = document.createElement("input");
     name2.setAttribute('type','text');
     name2.setAttribute('id','name2');
     name2.setAttribute('name','name2');
     name2.setAttribute('oninput','update();');
-
+    name2.required = "required";
+    
+    
     var lastname = document.createElement("input");
     lastname.setAttribute('type','text');
     lastname.setAttribute('id','lastname');
     lastname.setAttribute('name','lastname');
     lastname.setAttribute('oninput','update();');
+    
 
     var number = document.createElement("input");
     number.setAttribute('type','number');
@@ -85,9 +87,9 @@ function typeSelect()
             document.getElementById('demo').innerHTML = '<h2>Imię:</h2>';
             document.getElementById('demo').appendChild(name);
             document.getElementById('demo').innerHTML += '<h2>Nazwisko:</h2>';
-            document.getElementById('demo').appendChild(name2);
-            document.getElementById('demo').innerHTML += '<h2>Nazwa:</h2>';
             document.getElementById('demo').appendChild(lastname);
+            document.getElementById('demo').innerHTML += '<h2>Nazwa:</h2>';
+            document.getElementById('demo').appendChild(name2);
             if(window.location.pathname == '/add_ident.php')
             {
                 document.getElementById('demo').innerHTML += '<h2>Ilość:</h2>';
@@ -104,9 +106,9 @@ function typeSelect()
             document.getElementById('demo').innerHTML = '<h2>Imię:</h2>';
             document.getElementById('demo').appendChild(name);
             document.getElementById('demo').innerHTML += '<h2>Nazwisko:</h2>';
-            document.getElementById('demo').appendChild(name2);
-            document.getElementById('demo').innerHTML += '<h2>Nazwa:</h2>';
             document.getElementById('demo').appendChild(lastname);
+            document.getElementById('demo').innerHTML += '<h2>Nazwa:</h2>';
+            document.getElementById('demo').appendChild(name2);
             if(window.location.pathname == '/add_ident.php')
             {
                 document.getElementById('demo').innerHTML += '<h2>Ilość:</h2>';
@@ -119,7 +121,7 @@ function typeSelect()
             document.getElementById("add").style.display = '';
 
             document.getElementById('demo').innerHTML = '<h2>Numer rejestracyjny:</h2>';
-            document.getElementById('demo').appendChild(name);
+            document.getElementById('demo').appendChild(name2);
         break;
 
         default:
@@ -147,7 +149,7 @@ function update()
 function showHistory(index)
 {
     var value = document.getElementById("editedBy"+index).getAttribute("value")
-    if(document.getElementById("editedBy"+index).textContent == "Pokaż")
+    if(document.getElementById("editedBy"+index).textContent == '')
     {
         if(value != "")
         {
@@ -162,9 +164,10 @@ function showHistory(index)
     }
     else
     {
-        document.getElementById("editedBy"+index).innerHTML = "Pokaż"
+        document.getElementById("editedBy"+index).innerHTML = '<i class = "demo-icon icon-eye"></i>'
     }
-}
+} 
+
 function showBackground(id)
 {
     var img = document.getElementById("td"+id).getAttribute("value")

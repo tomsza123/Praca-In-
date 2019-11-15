@@ -16,6 +16,7 @@
 <!-- mobile meta tag -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="css/fontello.css">
 <script src="http://code.jquery.com/jquery-latest.pack.js" type="text/javascript"></script>
 </head>
 <script type="text/javascript" src="script.js"></script>
@@ -25,7 +26,7 @@
         <a href="#" class="btn open-menu">&#9776;</a>
 	    <nav class="clearfix">
 		    <a href="#" class="btn hide">&laquo; Zamknij</a>
-            <a href="main.php" class="btn">Główna</a>
+            <a href="main.php" class="btn">Panel administratora</a>
             <a href="logout.php" class="btn">Wyloguj</a> 
             				
 	    </nav>
@@ -78,8 +79,8 @@
             echo "<td>".$r['id']."</td>";
             echo "<td>".$r['zone']."</td>";
             echo "<td>
-           <a href=\"zones.php?a=del&amp;id={$r['id']}\">Usuń</a>
-           <a href=\"edit_zone.php?id={$r['id']}\">Edytuj</a>
+           <a href=\"zones.php?a=del&amp;id={$r['id']}\"><i class='demo-icon icon-trash-circled'></i></a>
+           <a href=\"edit_zone.php?id={$r['id']}\"><i class='demo-icon icon-pencil-circled'></i></a>
            </td>";
             echo "</tr>";
         }
@@ -87,17 +88,15 @@
 ?>
 </table>
 <div>
-<div id="footer">
 
-        <!--<button class="button" onclick="window.location.href='add_ident.php' ">Dodaj identyfikator</button>-->
-        <button class="submit" name="add" value="add">Dodaj strefę</button>
-        <!--<button class="submit" name="generate" value="generate">Wygeneruj wybrane</button>-->
-        <button class="submit" name="delete" value="delete">Usuń wybrane</button>
-        </form>
-</div>
 </form>
 
 </section>
+<div id="footer">
+        <button class="submit" onclick="window.location.href = 'add_zone.php';">Dodaj strefę</button>
+        <button class="submit" name="delete" value="delete">Usuń wybrane</button>
+        </form>
+</div>
 
 </body>
 </html>

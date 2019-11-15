@@ -16,6 +16,7 @@
 <!-- mobile meta tag -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="css/fontello.css">
 <script src="http://code.jquery.com/jquery-latest.pack.js" type="text/javascript"></script>
 </head>
 <script type="text/javascript" src="script.js"></script>
@@ -25,7 +26,7 @@
         <a href="#" class="btn open-menu">&#9776;</a>
 	    <nav class="clearfix">
 		    <a href="#" class="btn hide">&laquo; Zamknij</a>
-            <a href="main.php" class="btn">Główna</a>
+            <a href="main.php" class="btn">Panel administratora</a>
             <a href="logout.php" class="btn">Wyloguj</a> 
             				
 	    </nav>
@@ -41,12 +42,13 @@
 <tr>
     <th></th><!--mozna poprawic na metode post-->
     <th><a href="ident_types.php?s=id&amp;order=<?php echo isset($_GET['order'])?!$_GET['order']:1; ?>">Id</a></th>
-    <th><a href="ident_types.php?s=type&amp;order=<?php echo isset($_GET['order'])?!$_GET['order']:1; ?>">Typ</a></th>
-    <th>Tło</th>
     <th><a href="ident_types.php?s=type_2&amp;order=<?php echo isset($_GET['order'])?!$_GET['order']:1; ?>">Rodzaj</a></th>
+    <th>Tło</th>
+    
+    <th><a href="ident_types.php?s=type&amp;order=<?php echo isset($_GET['order'])?!$_GET['order']:1; ?>">Typ</a></th>
     <th><a href="ident_types.php?s=comment&amp;order=<?php echo isset($_GET['order'])?!$_GET['order']:1; ?>">Komentarz</a></th>
     <th><a href="ident_types.php?s=madeby&amp;order=<?php echo isset($_GET['order'])?!$_GET['order']:1; ?>">Utworzony przez</a></th>    
-    <th>Akcja</th>
+    <th>Akcja&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
 </tr>
 </thead>
 <?php
@@ -55,11 +57,11 @@
     require_once "connect.php";
     $connect = @new mysqli($host,$db_user,$db_password,$db_name);
 
-    
-
+    $made_by = mysqli_query($connect,"SELECT * FROM users ");
     if(!isset($_GET['s']))
     {
-        $ident_type = mysqli_query($connect,"SELECT * FROM ident_type ");
+        //$ident_type = mysqli_query($connect,"SELECT * FROM ident_type ");
+        $ident_type = mysqli_query($connect,"SELECT ident_type.*, users.login FROM ident_type INNER JOIN users ON ident_type.madeby = users.id ");
     }
     else
     {
@@ -68,14 +70,15 @@
         //sortowanie rosnaco lub malejąco
         if($order == 1)
         {
-            $ident_type = mysqli_query($connect,"SELECT * FROM ident_type ORDER BY $s ASC");
+            $ident_type = mysqli_query($connect,"SELECT ident_type.*, users.login FROM ident_type INNER JOIN users ON ident_type.madeby = users.id  ORDER BY $s ASC");
         }
         else
         {
-            $ident_type = mysqli_query($connect,"SELECT * FROM ident_type ORDER BY $s DESC");
+            $ident_type = mysqli_query($connect,"SELECT ident_type.*, users.login FROM ident_type INNER JOIN users ON ident_type.madeby = users.id  ORDER BY $s DESC");
             //$order = '1';
         }
     }
+    
 
     if(mysqli_num_rows($ident_type) > 0) 
     {
@@ -83,38 +86,32 @@
         
         while($r = mysqli_fetch_array($ident_type)) 
         {
-            echo "<tr>";
-            echo '<td> <input type="checkbox" name="checkbox[]" value="'.$r['id'].'"></input> </td>';
-            echo "<td>".$r['id']."</td>";
-            echo "<td onclick="."document.location='add_ident.php?s=".$r['id']."' style='cursor:hand'>".$r['type']."</td>";
-            echo '<td id="td'.$r['id'].'" value="'.$r['background'].'" '.'onclick="showBackground('.$r['id'].')">Pokaż tło</td>';
-            //echo '<td onclick="showBackground()"><a href="'.$r['background'].'">Pokaż tło</a></td>';
-            echo "<td>".$r['type_2']."</td>";
-            echo "<td>".$r['comment']."</td>";
-            echo "<td>".$r['madeby']."</td>"; 
-            echo "<td>
-           <a href=\"ident_types.php?a=del&amp;id={$r['id']}\">Usuń</a>
-           <a href=\"edit_ident_type.php?id={$r['id']}\">Edytuj</a>
-           </td>";
-            echo "</tr>";
+                echo "<tr>";
+                echo '<td> <input type="checkbox" name="checkbox[]" value="'.$r['id'].'"></input> </td>';
+                echo "<td>".$r['id']."</td>";
+                echo "<td onclick="."document.location='add_ident.php?s=".$r['id']."' style='cursor:hand'>".$r['type']."</td>";
+                echo '<td id="td'.$r['id'].'" value="'.$r['background'].'" '.'onclick="showBackground('.$r['id'].')"><i class = "demo-icon icon-eye"></i></td>';
+                //echo '<td onclick="showBackground()"><a href="'.$r['background'].'">Pokaż tło</a></td>';
+                echo "<td>".$r['type_2']."</td>";
+                echo "<td>".$r['comment']."</td>";
+                echo "<td>".$r['login']."</td>";
+                
+                echo "<td><a href=\"ident_types.php?a=del&amp;id={$r['id']}\"><i class='demo-icon icon-trash-circled'></i></a><a href=\"edit_ident_type.php?id={$r['id']}\"><i class='demo-icon icon-pencil-circled'></i></a></td>";
+                echo "</tr>";
+        
         }
     }
 ?>
 </table>
 
-
-
-<div id="footer">
-
-        <!--<button class="button" onclick="window.location.href='add_ident.php' ">Dodaj identyfikator</button>-->
-        <button class="submit" name="add" value="add" >Dodaj nowy</button>
-        <!--<button class="submit" name="generate" value="generate">Wygeneruj wybrane</button>-->
-        <button class="submit" name="delete" value="delete">Usuń wybrane</button>
-        </form>
-</div>
 </form>
 
 </section>
+<div id="footer">
+        <button class="submit" name="add" value="add" >Dodaj nowy</button>
+        <button class="submit" name="delete" value="delete">Usuń wybrane</button>
+        </form>
+</div>
 
 </body>
 </html>

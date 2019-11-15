@@ -52,7 +52,7 @@
 
 </section>
 <div id="footer">
-    <b>prawa zaszczeżone</b>
+    
 </div>
 </body>
 </html>

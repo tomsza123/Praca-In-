@@ -129,7 +129,7 @@ if(isset($_POST['ident_type']))
 </header>
 <section class="container">
 
-<h1>Nowy rodzaj identyfikatora</h1>
+<h1>Edycja rodzaju identyfikatora</h1>
 
 <div id="loginform">
     <form enctype="multipart/form-data"  method="post" id="form"> 
@@ -187,7 +187,7 @@ if(isset($_POST['ident_type']))
         ?>            
         </form>  
         <div class="center"> 
-            <button type="submit" form="form" class="button">Dodaj</button>
+            <button type="submit" form="form" class="button">Edytuj</button>
             <button class="button" onclick="anuluj()">Anuluj</button>
         </div> 
         

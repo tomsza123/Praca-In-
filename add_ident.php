@@ -24,11 +24,10 @@
         {
             $type = $row['type'];
             $type_2 = $row['type_2'];
+            $type_id = $row['id'];
         }
         //echo $type;
     }
-    
-
 ?>
 
 <!DOCTYPE html>
@@ -72,12 +71,12 @@
                 { 
                     if($r['type']==$type)
                     {
-                        echo '<option value="'.$r['type_2'].'|'.$r['type'].'" selected >';
-                    echo $r['type'];
+                        echo '<option value="'.$r['type_2'].'|'.$r['type'].'|'.$r['id'].'" selected >';
+                    echo $r['type']."aaaaaa";
                     }
                     else
                     {
-                        echo '<option value="'.$r['type_2'].'|'.$r['type'].'" >';
+                        echo '<option value="'.$r['type_2'].'|'.$r['type'].'|'.$r['id'].'" >';
                         echo $r['type'];
                         echo '</option>';
                     }
@@ -93,7 +92,7 @@
                 echo'<option value="Pusty|" >';
                 while($r = mysqli_fetch_assoc($types)) 
                 { 
-                    echo '<option value="'.$r['type_2'].'|'.$r['type'].'" >';
+                    echo '<option value="'.$r['type_2'].'|'.$r['type'].'|'.$r['id'].'" >';
                     echo $r['type'];
                     echo '</option>';
                 }  
@@ -117,12 +116,16 @@
     if(mysqli_num_rows($zones) > 0) 
     { 
         echo '<select id="zone" name="zone" onchange=typeSelect();>';
-        echo'<option value="" selected>';
+        //echo'<option value="" selected>';
         while($r = mysqli_fetch_assoc($zones)) 
-        {  
-            echo '<option value="'.$r['zone'].'" >';
-            echo $r['zone'];
-            echo '</option>';
+        {
+            if($r['id'] != 1)
+            {
+                echo '<option value="'.$r['id'].'" >';
+                echo $r['zone'];
+                echo '</option>';
+            }  
+            
         }  
     }
     echo '</select>'
@@ -143,15 +146,15 @@
 
     if(isset($_POST['identtype']))
     {
-        $zone = $_POST['zone'];
+        @$zone = $_POST['zone'];
 
-        $name = $_POST['name'];
+        @$name = $_POST['name'];
         @$name2 = $_POST['name2'];
         @$lastname = $_POST['lastname'];
         @$number = $_POST['number'];
 
-        $madeby = $_SESSION['login'];
-        $seltype = $stype[1];
+        $madeby = $_SESSION['id'];
+        $seltype = $stype[2];
         $type = $stype[0];
         
         switch($type)
@@ -159,17 +162,18 @@
             case('Identyfikator bezstrefowy'):
             for($i=0;$i<=$number;$i++)
             {
-                $connect->query("INSERT INTO ident VALUES (NULL, '$name','$name2','$lastname','$madeby','','$seltype','')");
+                $connect->query("INSERT INTO ident VALUES (NULL, '$name','$lastname','$name2','$madeby','','$seltype',1)");
             }
             break;
             case('Identyfikator strefowy'):
+           
             for($i=0;$i<=$number;$i++)
             {
-                $connect->query("INSERT INTO ident VALUES (NULL, '$name','$name2','$lastname','$madeby','','$seltype','$zone')");
+                $connect->query("INSERT INTO ident VALUES (NULL, '$name','$lastname','$name2','$madeby','','$seltype','$zone')");
             }
             break;
             case('Wjazdówka'):
-                $connect->query("INSERT INTO ident VALUES (NULL, '$name','','','$madeby','','$seltype','$zone')");
+                $connect->query("INSERT INTO ident VALUES (NULL, '','','$lastname','$madeby','','$seltype',1)");
             break;
         }
             

@@ -21,7 +21,7 @@ if(isset($_POST['ident_type']))
     $background_tmp = $_FILES['background']['tmp_name'];
     $background_name = $_FILES['background']['name'];
     $comment = $_POST['comment'];
-    $login = $_SESSION['login'];
+    $login = $_SESSION['id'];
     $ident_type_2 = $_POST['ident_type_2'];
 
     $result=$connect->query("SELECT id FROM ident_type WHERE type='$ident_type'");
@@ -31,7 +31,7 @@ if(isset($_POST['ident_type']))
         if(!($result->num_rows == 0))
         {
             $is_ok=false;
-            $_SESSION['ident_type_error']='Podany typ identyfikatora już istnieje';
+            $_SESSION['ident_type_error']='Podany rodzaj identyfikatora już istnieje';
         }
 
         if(!($result2->num_rows == 0))
