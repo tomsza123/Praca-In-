@@ -64,6 +64,7 @@
 </head>
 <script type="text/javascript" src="script.js"></script>
 <body>
+<div id="modal"></div>
 <header>
     <div id="logo">
         <div class="search-container">

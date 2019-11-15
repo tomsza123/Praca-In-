@@ -153,8 +153,27 @@ function showHistory(index)
     {
         if(value != "")
         {
-            var show = value.replace("||","\n")
-            alert(show);
+            //var show = value.replace("|"," ")
+            var show = value.split('|');
+            //var show = value.replace("-","    ")
+            var i = 0;
+            var o = 1;
+            document.getElementById("modal").innerHTML = '<div class="modal"><div class="modal-content"><div class="close-button" onclick="closeModal();">&times;</div><div id="history"><h2>Historia edycji</h2><br></div><div></div>';
+            
+            while(i<show.length)
+            {
+                if(i%2!=0)
+                {
+                    document.getElementById("history").innerHTML +="<b>" + o +".</b>" + show[i] + "<br>";
+                    o++;
+                }
+                
+                i++;
+            }
+
+            var modal = document.querySelector(".modal");
+            modal.classList.toggle("show-modal");
+
         }
         else
         {
